@@ -1,0 +1,50 @@
+{
+  "name": "xsshunter-express-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An easy to set up and use instance of XSS Hunter.",
+  "author": "mandatory",
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "e2e": "node test/e2e/runner.js",
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service serve --open",
+    "lint-fix": "vue-cli-service lint --fix"
+  },
+  "dependencies": {
+    "@deveodk/vue-toastr": "^1.1.0",
+    "chart.js": "^2.9.3",
+    "eslint": "^7.23.0",
+    "i": "^0.3.6",
+    "moment": "^2.29.1",
+    "npm": "^7.15.0",
+    "toastr": "^2.1.4",
+    "vue": "^2.6.11",
+    "vue-chartjs": "^3.5.0",
+    "vue-clipboard2": "^0.3.1",
+    "vue-codemirror": "^4.0.6",
+    "vue-highlightjs": "^1.3.3",
+    "vue-i18n": "^8.18.2",
+    "vue-moment": "^4.1.0",
+    "vue-router": "^3.3.4",
+    "vue-router-prefetch": "^1.6.0",
+    "vue-toastr-2": "0.0.10",
+    "vue2-transitions": "^0.3.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.7",
+    "@vue/cli-plugin-eslint": "^4.4.6",
+    "@vue/cli-plugin-pwa": "^4.4.6",
+    "@vue/cli-service": "^4.4.6",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2",
+    "vue-cli-plugin-i18n": "^1.0.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 11"
+  ]
+}
