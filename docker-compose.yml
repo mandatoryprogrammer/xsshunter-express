@@ -77,4 +77,3 @@ services:
       POSTGRES_PASSWORD: xsshunterexpress
     volumes:
       - ./postgres-db-data:/var/lib/postgresql/data/pgdata
-      - ./postgres-init:/docker-entrypoint-initdb.d
