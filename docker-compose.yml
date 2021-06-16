@@ -9,7 +9,8 @@ services:
       # SSL will automatically be set up and
       #  renewed with LetsEncrypt.
       - HOSTNAME=your.host.name
-      # [REQUIRED] Email for SSL
+      - SSL_ENABLED=true
+      # [REQUIRED if SSL_ENABLED] Email for SSL
       - SSL_CONTACT_EMAIL=YourEmail@gmail.com
       # Maximum XSS callback payload size
       # This includes the webpage screenshot, DOM HTML,
