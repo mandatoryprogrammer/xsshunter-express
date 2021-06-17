@@ -11,13 +11,13 @@ if(process.env.SSL_ENABLED === 'true' && !process.env.SSL_CONTACT_EMAIL) {
 }
 
 (async () => {
-	// Ensure database is initialized.
-	await database_init();
+    // Ensure database is initialized.
+    await database_init();
 
-	const app = await get_app_server();
+    const app = await get_app_server();
 
-	if (process.env.SSL_ENABLED === 'true') {
-    app.listen(80);
+    if (process.env.SSL_ENABLED !== 'true') {
+        app.listen(80);
   } else {
     require("greenlock-express")
       .init({
