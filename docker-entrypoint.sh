@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ $ENABLE_SSL = 'true' ]]; then
+if [[ $SSL_ENABLED = 'true' ]]; then
   echo "Initializing SSL/TLS..."
   # Set up Greenlock
   # Test if --maintainer-email is required, we can set it via environment variables...
