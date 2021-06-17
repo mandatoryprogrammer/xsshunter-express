@@ -16,7 +16,7 @@ if(process.env.SSL_ENABLED === 'true' && !process.env.SSL_CONTACT_EMAIL) {
 
 	const app = await get_app_server();
 
-	if (process.env.SSL_ENABLED === 'true') {
+  if (process.env.SSL_ENABLED !== 'true') {
     app.listen(80);
   } else {
     require("greenlock-express")
