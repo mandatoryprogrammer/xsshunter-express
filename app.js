@@ -59,8 +59,9 @@ async function get_app_server() {
     app.use(async function(req, res, next) {
 		if(req.path.toLowerCase() === req.path) {
 			next();
+			return
 		}
-		
+
 		res.status(401).json({
 			"success": false,
 			"error": "No.",
