@@ -94,9 +94,17 @@ async function set_up_api_server(app) {
             constants.API_BASE_PATH + 'settings',
         ];
 
+        // Check if the path being accessed required authentication
+        var requires_authentication = false;
+        AUTHENTICATION_REQUIRED_ROUTES.map(authenticated_route => {
+            if(req.path.toLowerCase().startsWith(authenticated_route)) {
+                requires_authentication = true;
+            }
+        });
+
         // If the route is not one of the authentication required routes
         // then we can allow it through.
-        if(!AUTHENTICATION_REQUIRED_ROUTES.includes(req.path)) {
+        if(!requires_authentication) {
             next();
             return;
         }
