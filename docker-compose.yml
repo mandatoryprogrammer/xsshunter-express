@@ -8,50 +8,51 @@ services:
       # the IP of the server running this service. 
       # SSL will automatically be set up and
       #  renewed with LetsEncrypt.
-      - HOSTNAME=your.host.name
-      # [REQUIRED] Email for SSL
-      - SSL_CONTACT_EMAIL=YourEmail@gmail.com
+      - HOSTNAME=${HOSTNAME:-your.host.name}
+      - SSL_ENABLED=${SSL_ENABLED:-true}
+      # [REQUIRED if SSL_ENABLED] Email for SSL
+      - SSL_CONTACT_EMAIL=${SSL_CONTACT_EMAIL:-YourEmail@gmail.com}
       # Maximum XSS callback payload size
       # This includes the webpage screenshot, DOM HTML,
       # page text, and other metadata. Note that if the
       # payload is above this limit, you won't be notified
       # of the XSS firing.
-      - MAX_PAYLOAD_UPLOAD_SIZE_MB=50
+      - MAX_PAYLOAD_UPLOAD_SIZE_MB=${MAX_PAYLOAD_UPLOAD_SIZE_MB:-50}
       # Whether or not to enable the web control panel
       # Set to "false" or remove to disable the web UI.
       # Useful for minimizing attack surface.
-      - CONTROL_PANEL_ENABLED=true
+      - CONTROL_PANEL_ENABLED=${CONTROL_PANEL_ENABLED:-true}
       # Whether or not to enable email notifications via
       # SMTP for XSS payload fires.
-      - SMTP_EMAIL_NOTIFICATIONS_ENABLED=true
-      - SMTP_HOST=smtp.gmail.com
-      - SMTP_PORT=465
-      - SMTP_USE_TLS=true
-      - SMTP_USERNAME=YourEmail@gmail.com
-      - SMTP_PASSWORD=YourEmailPassword
-      - SMTP_FROM_EMAIL=YourEmail@gmail.com
-      - SMTP_RECEIVER_EMAIL=YourEmail@gmail.com
+      - SMTP_EMAIL_NOTIFICATIONS_ENABLED=${SMTP_EMAIL_NOTIFICATIONS_ENABLED:-true}
+      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-465}
+      - SMTP_USE_TLS=${SMTP_USE_TLS:-true}
+      - SMTP_USERNAME=${SMTP_USERNAME:-YourEmail@gmail.com}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-YourEmailPassword}
+      - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL:-YourEmail@gmail.com}
+      - SMTP_RECEIVER_EMAIL=${SMTP_RECEIVER_EMAIL:-YourEmail@gmail.com}
       # THERE IS NO NEED TO MODIFY BELOW THIS LINE
       # ------------------------------------------
       # FEEL FREE, BUT KNOW WHAT YOU'RE DOING.
       # Where XSS screenshots are stored
-      - SCREENSHOTS_DIR=/app/payload-fire-images
-      - DATABASE_NAME=xsshunterexpress
-      - DATABASE_USER=xsshunterexpress
-      - DATABASE_PASSWORD=xsshunterexpress
-      - DATABASE_HOST=postgresdb
-      - NODE_ENV=production
-    ports:
-      - "80:80"
-      - "443:443"
+      - SCREENSHOTS_DIR=${SCREENSHOTS_DIR:-/app/payload-fire-images}
+      - DATABASE_NAME=${DATABASE_NAME:-xsshunterexpress}
+      - DATABASE_USER=${DATABASE_USER:-xsshunterexpress}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-xsshunterexpress}
+      - DATABASE_HOST=${DATABASE_HOST:-postgresdb}
+      - NODE_ENV=${NODE_ENV:-production}
+    # ports:
+    #   - "80:80"
+    #  - "443:443"
     volumes:
       # Stores the SSL/TLS certificates and keys
       # in the "ssldata" directory.
       # Your certificates are automatically renewed
       # via LetsEncrypt, no extra work needed!
-      - ./ssldata:/app/greenlock.d
+      # - ./ssldata:/app/greenlock.d
       # Directory where payload fire images are stored.
-      - ./payload-fire-images:/app/payload-fire-images
+      - payloads-data:/app/payload-fire-images
     # Comment out if you're using an external SQL
     # server and have commented out the DB section.
     depends_on:
@@ -76,4 +77,9 @@ services:
       POSTGRES_DB: xsshunterexpress
       POSTGRES_PASSWORD: xsshunterexpress
     volumes:
-      - ./postgres-db-data:/var/lib/postgresql/data/pgdata
+      - db-data:/var/lib/postgresql/data/pgdata
+
+
+volumes:
+  payloads-data:
+  db-data:

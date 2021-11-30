@@ -426,8 +426,32 @@ async function initialize_correlation_api() {
 	});
 }
 
+async function wait_for_database(){
+	const sleepDurationSecond = 3
+	const sleep = () => new Promise(resolve => {setTimeout(resolve, sleepDurationSecond * 1000)})  
+	let maxTry = 10
+
+	while(maxTry--){
+		try {
+			await sequelize.authenticate();
+			return 
+		} catch (error) {
+			console.error(`Database not available, next try in ${sleepDurationSecond}s.`)
+			await sleep()
+			continue
+		}
+	}
+
+	// Database still down after 30s
+	console.error("Enable to connect to database")
+	process.exit(1)
+}
+
 async function database_init() {
 	const force = false;
+
+	// Check is the database is up
+	await wait_for_database()
 
 	// Set up database schema
 	await Promise.all([
