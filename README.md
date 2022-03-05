@@ -30,6 +30,14 @@ The following are needed if you want email notifications:
 * `SMTP_FROM_EMAIL`: The email address of your email account on the SMTP server (e.g. `exampleuser@gmail.com`).
 * `SMTP_RECEIVER_EMAIL`: What email the notifications will be sent to. This may be the same as the above but could be different.
 
+The following are needed if you want slack notifications:
+
+* `SMTP_EMAIL_NOTIFICATIONS_ENABLED`: Leave enabled to receive slack notifications (you must set this up via the below configurations as well).
+* `SLACK_WEBHOOK`: The slack webhook that you get once you setup integration.
+* `SLACK_CHANNEL`: The slack channel that the webhook will post to.
+* `SLACK_USERNAME`: The username given to the slack message (e.g. `XSS Hunter Alerts`).
+* `SLACK_EMOJI`: The Emoji used as the porfile picture on slack (e.g. `warning`).
+
 Finally, the following is worth considering for the security conscious:
 
 * `CONTROL_PANEL_ENABLED`: If you want to minimize the attack surface of your instance you can disable the web control panel. This makes it so you'll only receive emails of payload fires (results will still be stored on disk and in the database).

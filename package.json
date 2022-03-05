@@ -12,6 +12,7 @@
   "dependencies": {
     "@deveodk/vue-toastr": "^1.1.0",
     "@nvanexan/node-client-sessions": "^0.8.0",
+    "axios": "0.26.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
