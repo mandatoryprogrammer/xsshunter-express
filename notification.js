@@ -56,5 +56,16 @@ async function send_slack_notification(xss_payload_fire_data) {
 	console.log("Message sent to slack");
 }
 
+async function send_discord_notification(xss_payload_fire_data) {
+	var discord_message = {
+		"content": `XSS Payload Fired On ${xss_payload_fire_data.url}`
+	};
+
+	await axios.post(process.env.DISCORD_WEBHOOK, discord_message);
+
+	console.log("Message sent to discord");
+}
+
 module.exports.send_email_notification = send_email_notification;
 module.exports.send_slack_notification = send_slack_notification;
+module.exports.send_discord_notification = send_discord_notification;

@@ -38,6 +38,10 @@ services:
       - SLACK_CHANNEL=xssalerting
       - SLACK_USERNAME=XSS-Hunter
       - SLACK_EMOJI=hackerman
+      # Whether or not to enable Discord notifications via
+      # Webhook for XSS payload fires.
+      - DISCORD_NOTIFICATIONS_ENABLED=true
+      - DISCORD_WEBHOOK=discord.com/api/webhooks/
       # THERE IS NO NEED TO MODIFY BELOW THIS LINE
       # ------------------------------------------
       # FEEL FREE, BUT KNOW WHAT YOU'RE DOING.
