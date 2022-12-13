@@ -31,6 +31,13 @@ services:
       - SMTP_PASSWORD=YourEmailPassword
       - SMTP_FROM_EMAIL=YourEmail@gmail.com
       - SMTP_RECEIVER_EMAIL=YourEmail@gmail.com
+      # Whether or not to enable slack notifications via
+      # Webhook for XSS payload fires.
+      - SLACK_NOTIFICATIONS_ENABLED=true
+      - SLACK_WEBHOOK=https://hooks.slack.com/services/
+      - SLACK_CHANNEL=xssalerting
+      - SLACK_USERNAME=XSS-Hunter
+      - SLACK_EMOJI=hackerman
       # THERE IS NO NEED TO MODIFY BELOW THIS LINE
       # ------------------------------------------
       # FEEL FREE, BUT KNOW WHAT YOU'RE DOING.
