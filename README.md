@@ -32,7 +32,7 @@ The following are needed if you want email notifications:
 
 The following are needed if you want slack notifications:
 
-* `SMTP_EMAIL_NOTIFICATIONS_ENABLED`: Leave enabled to receive slack notifications (you must set this up via the below configurations as well).
+* `SLACK_NOTIFICATIONS_ENABLED`: Leave enabled to receive slack notifications (you must set this up via the below configurations as well).
 * `SLACK_WEBHOOK`: The slack webhook that you get once you setup integration.
 * `SLACK_CHANNEL`: The slack channel that the webhook will post to.
 * `SLACK_USERNAME`: The username given to the slack message (e.g. `XSS Hunter Alerts`).
