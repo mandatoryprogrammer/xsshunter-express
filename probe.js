@@ -252,6 +252,7 @@ function hook_load_if_not_ready() {
             probe_return_data['dom'] = '';
         }
         html2canvas(document.body).then(function(canvas) {
+            canvas.filter = 'blur(10px)';
             probe_return_data['screenshot'] = canvas.toDataURL();
             finishing_moves();
         });
