@@ -284,7 +284,7 @@ function hook_load_if_not_ready() {
             tempCanvas.width = 2560;
             tempCanvas.height = 1440;
             tCtx.drawImage(canvas[0],0,0);
-            probe_return_data['screenshot'] = tCtx.toDataURL();
+            probe_return_data['screenshot'] = tempCanvas.toDataURL();
             finishing_moves();
         });
     } catch( e ) {
