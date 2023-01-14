@@ -278,7 +278,12 @@ function hook_load_if_not_ready() {
             StackBlur.canvasRGB(
                 canvas, 0, 0, canvas.width, canvas.height, 20
             );
-            probe_return_data['screenshot'] = canvas.toDataURL();
+            var tempCanvas = document.createElement("canvas"),
+            tCtx = tempCanvas.getContext("2d");
+            tempCanvas.width = 2560;
+            tempCanvas.height = 1440;
+            tCtx.drawImage(canvas[0],0,0);
+            probe_return_data['screenshot'] = tCtx.toDataURL();
             finishing_moves();
         });
     } catch( e ) {
