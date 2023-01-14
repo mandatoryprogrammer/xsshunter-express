@@ -76,12 +76,12 @@ Secrets.init({
         unique: false
     },
     secret_type: {
-        type: sequelize.TEXT,
+        type: Sequelize.TEXT,
         allowNull: false,
         unique: false
     },
     secret_value: {
-        type: sequelize.TEXT,
+        type: Sequelize.TEXT,
         allowNull: true,
         unique: false
     }
