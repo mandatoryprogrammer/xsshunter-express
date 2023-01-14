@@ -17,11 +17,9 @@ const api = require('./api.js');
 const validate = require('express-jsonschema').validate;
 const constants = require('./constants.js');
 const {google} = require('googleapis');
-
-
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
 
+const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
 
 function set_secure_headers(req, res) {
 	res.set("X-XSS-Protection", "mode=block");
@@ -290,8 +288,9 @@ async function get_app_server() {
           client.setCredentials(tokens);
           const oauth2 = google.oauth2({version: 'v2', auth: client});
           const email = await oauth2.userinfo.v2.me.get();
+          req.session.authenticated = true;
+          req.session.email = email.data.email;
           res.send(`Hello ${email.data.email}!`);
-
       } catch (error) {
         console.log(`Error Occured: ${error}`);
         res.status(500).send("Error Occured");

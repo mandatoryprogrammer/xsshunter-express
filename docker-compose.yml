@@ -9,6 +9,8 @@ services:
       # SSL will automatically be set up and
       #  renewed with LetsEncrypt.
       - HOSTNAME=your.host.name
+      # THis hostname is where your JS is served out of
+      - XSS_HOSTNAME=your.xss.domain
       # [REQUIRED] Email for SSL
       - SSL_CONTACT_EMAIL=YourEmail@gmail.com
       # Maximum XSS callback payload size
