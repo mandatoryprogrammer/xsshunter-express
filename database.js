@@ -514,5 +514,6 @@ module.exports = {
 	CollectedPages,
 	InjectionRequests,
 	database_init,
-	update_settings_value
+	update_settings_value,
+    savePayload
 }
