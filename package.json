@@ -30,6 +30,6 @@
     "serve-favicon": "^2.5.0",
     "uuid": "^8.3.2",
     "vue-moment": "^4.1.0",
-    "npm i google-auth-library": "^8.7.0"
+    "google-auth-library": "^8.7.0"
   }
 }
