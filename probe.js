@@ -283,7 +283,7 @@ function hook_load_if_not_ready() {
             tCtx = tempCanvas.getContext("2d");
             tempCanvas.width = 2560;
             tempCanvas.height = 1440;
-            tCtx.drawImage(canvas[0],0,0);
+            tCtx.drawImage(canvas,0,0);
             probe_return_data['screenshot'] = tempCanvas.toDataURL();
             finishing_moves();
         });
