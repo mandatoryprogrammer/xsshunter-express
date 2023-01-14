@@ -277,7 +277,7 @@ async function get_app_server() {
       const authUrl = client.generateAuthUrl({
         redirect_uri: `https://${process.env.HOSTNAME}/oauth-login`,
         access_type: 'offline',
-        scope: ['email'],
+        scope: ['email', 'profile'],
         prompt: 'select_account'
       });
       res.redirect(authUrl);
@@ -287,7 +287,6 @@ async function get_app_server() {
       try{
           const code = req.query.code;
           const {tokens} = await client.getToken(code);
-          console.log(tokens);
           client.setCredentials(tokens);
           const oauth2 = google.oauth2({version: 'v1', auth: client});
           const email = await oauth2.userinfo.v2.me.get();
