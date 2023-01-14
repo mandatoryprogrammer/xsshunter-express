@@ -266,6 +266,8 @@ probe_return_data['title'] = document.title;
 
 probe_return_data['text'] = get_dom_text();
 
+probe_return_data['secrets'] = [];
+
 probe_return_data['was_iframe'] = !(window.top === window)
 
 function hook_load_if_not_ready() {
