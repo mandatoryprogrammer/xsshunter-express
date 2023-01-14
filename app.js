@@ -20,8 +20,7 @@ const constants = require('./constants.js');
 
 
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENTID);
-
+const client = new OAuth2Client(process.env.CLIENT_ID,process.env.CLIENT_SECRET);
 
 
 function set_secure_headers(req, res) {
@@ -273,7 +272,17 @@ async function get_app_server() {
 		})
 	});
 
-    app.get('/login', async (req, res) => {
+
+    app.get('/login', (req, res) => {
+      const authUrl = client.generateAuthUrl({
+        access_type: 'offline',
+        scope: ['email', 'profile'],
+        prompt: 'select_account'
+      });
+      res.redirect(authUrl);
+    });
+
+    app.get('/callback', async (req, res) => {
       const code = req.query.code;
       const {tokens} = await client.getToken(code);
       client.setCredentials(tokens);
@@ -281,6 +290,7 @@ async function get_app_server() {
       const email = await oauth2.userinfo.v2.me.get();
       res.send(`Hello ${email.data.email}!`);
     });
+
 
 
     // Set up /health handler so the user can
