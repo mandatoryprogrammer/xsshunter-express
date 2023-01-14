@@ -17,6 +17,13 @@ const api = require('./api.js');
 const validate = require('express-jsonschema').validate;
 const constants = require('./constants.js');
 
+
+
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENTID);
+
+
+
 function set_secure_headers(req, res) {
 	res.set("X-XSS-Protection", "mode=block");
 	res.set("X-Content-Type-Options", "nosniff");
@@ -265,6 +272,16 @@ async function get_app_server() {
 			}
 		})
 	});
+
+    app.get('/login', async (req, res) => {
+      const code = req.query.code;
+      const {tokens} = await client.getToken(code);
+      client.setCredentials(tokens);
+      const oauth2 = google.oauth2({version: 'v1', auth: client});
+      const email = await oauth2.userinfo.v2.me.get();
+      res.send(`Hello ${email.data.email}!`);
+    });
+
 
     // Set up /health handler so the user can
     // do uptime checks and appropriate alerting.

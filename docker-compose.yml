@@ -31,6 +31,9 @@ services:
       - SMTP_PASSWORD=YourEmailPassword
       - SMTP_FROM_EMAIL=YourEmail@gmail.com
       - SMTP_RECEIVER_EMAIL=YourEmail@gmail.com
+      # CLIENT ID FOR OAUTH LOGIN
+      - CLIENT_ID=your_client_id
+      - CLIENT_SECRET=your_client_secret
       # THERE IS NO NEED TO MODIFY BELOW THIS LINE
       # ------------------------------------------
       # FEEL FREE, BUT KNOW WHAT YOU'RE DOING.
