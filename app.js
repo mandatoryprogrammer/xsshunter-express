@@ -277,7 +277,7 @@ async function get_app_server() {
       const authUrl = client.generateAuthUrl({
         redirect_uri: `https://${process.env.HOSTNAME}/oauth-login`,
         access_type: 'offline',
-        scope: ['email', 'profile'],
+        scope: ['email'],
         prompt: 'select_account'
       });
       res.redirect(authUrl);
@@ -285,9 +285,6 @@ async function get_app_server() {
 
     app.get('/oauth-login', async (req, res) => {
       try{
-          console.log(req.query.code);
-          console.log(process.env.CLIENT_ID);
-          console.log(process.env.CLIENT_SECRET);
           const code = req.query.code;
           const {tokens} = await client.getToken(code);
           console.log(tokens);
