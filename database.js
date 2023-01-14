@@ -58,6 +58,50 @@ Settings.init({
 	]
 });
 
+
+/*
+    Secrets found in DOMs
+*/
+class Secrets extends Model {}
+Secrets.init({
+ 	id: {
+		allowNull: false,
+		primaryKey: true,
+		type: Sequelize.UUID,
+		defaultValue: uuid.v4()
+	},   
+    payload_id: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        unique: false
+    },
+    secret_type: {
+        type: sequelize.TEXT,
+        allowNull: false,
+        unique: false
+    },
+    secret_value: {
+        type: sequelize.TEXT,
+        allowNull: true,
+        unique: false
+    }
+}, {
+	sequelize,
+	modelName: 'secrets',
+	indexes: [
+		{
+			unique: false,
+			fields: ['secret_type'],
+			method: 'BTREE',
+		},
+        {
+            unique: false,
+            fields: ['secret_value'],
+            method: 'BTREE'
+        }
+    ]
+});
+	
 /*
 	XSS payload fire results
 */
@@ -107,21 +151,6 @@ PayloadFireResults.init({
 	},
 	// Title of the page which the payload fired on.
 	title: {
-		type: Sequelize.TEXT,
-		allowNull: false,
-		unique: false
-	},
-	// DOM contents of the page the payload
-	// fired upon. Can be quite large so is
-	// not indexed.
-	dom: {
-		type: Sequelize.TEXT,
-		allowNull: false,
-		unique: false
-	},
-	// Text content of the page
-	// e.g: document.body.outerText
-	text: {
 		type: Sequelize.TEXT,
 		allowNull: false,
 		unique: false
@@ -204,6 +233,15 @@ PayloadFireResults.init({
 		}
 	]
 });
+
+let savePayload = async function(payload){
+    let payload = await PayloadFireResults.create(payload);
+    for (const secret of payload.secrets){
+        secret.payload_id = payload.id;
+        await Secret.create(payload);
+    }
+    return payload
+}
 
 class CollectedPages extends Model {}
 CollectedPages.init({

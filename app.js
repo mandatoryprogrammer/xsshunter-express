@@ -8,6 +8,7 @@ const uuid = require('uuid');
 const database = require('./database.js');
 const Settings = database.Settings;
 const PayloadFireResults = database.PayloadFireResults;
+const savePayload = database.savePayload;
 const CollectedPages = database.CollectedPages;
 const InjectionRequests = database.InjectionRequests;
 const sequelize = database.sequelize;
@@ -150,19 +151,15 @@ async function get_app_server() {
     			"type": "string",
     			"default": ""
     		},
-    		"text": {
-    			"type": "string",
-    			"default": ""
-    		},
     		"was_iframe": {
     			"type": "string",
     			"default": "false",
     			"enum": ["true", "false"]
     		},
-    		"dom": {
-    			"type": "string",
-    			"default": ""
-    		}
+    		"secrets": {
+    			"type": "array",
+    			"default": []
+    		},
     	}
     };
     app.post('/js_callback', upload.single('screenshot'), validate({body: JSCallbackSchema}), async (req, res) => {
@@ -210,8 +207,7 @@ async function get_app_server() {
 			user_agent: req.body['user-agent'],
 			cookies: req.body.cookies,
 			title: req.body.title,
-			dom: req.body.dom,
-			text: req.body.text,
+			secrets: req.body.secrets,
 			origin: req.body.origin,
 			screenshot_id: payload_fire_image_id,
 			was_iframe: (req.body.was_iframe === 'true'),
@@ -231,7 +227,7 @@ async function get_app_server() {
         }
 
 		// Store payload fire results in the database
-		const new_payload_fire_result = await PayloadFireResults.create(payload_fire_data);
+		const new_payload_fire_result = await savePayload(payload_fire_data);
 
 		// Send out notification via configured notification channel
 		if(process.env.SMTP_EMAIL_NOTIFICATIONS_ENABLED === "true") {
