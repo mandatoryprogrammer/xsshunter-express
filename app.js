@@ -285,8 +285,12 @@ async function get_app_server() {
 
     app.get('/oauth-login', async (req, res) => {
       try{
+          console.log(req.query.code);
+          console.log(process.env.CLIENT_ID);
+          console.log(process.env.CLIENT_SECRET);
           const code = req.query.code;
           const {tokens} = await client.getToken(code);
+          console.log(tokens);
           client.setCredentials(tokens);
           const oauth2 = google.oauth2({version: 'v1', auth: client});
           const email = await oauth2.userinfo.v2.me.get();
