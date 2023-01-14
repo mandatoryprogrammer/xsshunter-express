@@ -284,12 +284,18 @@ async function get_app_server() {
     });
 
     app.get('/oauth-login', async (req, res) => {
-      const code = req.query.code;
-      const {tokens} = await client.getToken(code);
-      client.setCredentials(tokens);
-      const oauth2 = google.oauth2({version: 'v1', auth: client});
-      const email = await oauth2.userinfo.v2.me.get();
-      res.send(`Hello ${email.data.email}!`);
+      try{
+          const code = req.query.code;
+          const {tokens} = await client.getToken(code);
+          client.setCredentials(tokens);
+          const oauth2 = google.oauth2({version: 'v1', auth: client});
+          const email = await oauth2.userinfo.v2.me.get();
+          res.send(`Hello ${email.data.email}!`);
+
+      } catch (error) {
+        console.log(`Error Occured: ${error}`);
+        res.status(500).send("Error Occured");
+      }
     });
 
 
