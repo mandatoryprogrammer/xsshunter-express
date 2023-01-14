@@ -20,7 +20,8 @@ const constants = require('./constants.js');
 
 
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
+console.log(`https://${process.env.HOSTNAME}/oauth-login`)
 
 
 function set_secure_headers(req, res) {
