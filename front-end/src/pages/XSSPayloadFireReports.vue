@@ -141,6 +141,7 @@
                                                 Secret value: {{ secret.secret_value }}
                                             </li>
                                         </div>
+                                        <hr />
                                     </div>
                                     <div>
                                         <div>
