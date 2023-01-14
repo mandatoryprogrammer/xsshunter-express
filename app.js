@@ -16,12 +16,11 @@ const notification = require('./notification.js');
 const api = require('./api.js');
 const validate = require('express-jsonschema').validate;
 const constants = require('./constants.js');
-
+const {google} = require('googleapis');
 
 
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
-console.log(`https://${process.env.HOSTNAME}/oauth-login`)
 
 
 function set_secure_headers(req, res) {
@@ -287,9 +286,7 @@ async function get_app_server() {
     app.get('/oauth-login', async (req, res) => {
       try{
           const code = req.query.code;
-          console.log(code);
           const {tokens} = await client.getToken(code);
-          console.log("wat");
           client.setCredentials(tokens);
           const oauth2 = google.oauth2({version: 'v1', auth: client});
           const email = await oauth2.userinfo.v2.me.get();
