@@ -227,6 +227,9 @@ async function set_up_api_server(app) {
 		Update the user's path.
     */
     app.put(constants.API_BASE_PATH + 'user-path', async (req, res) => {
+        console.log(req.body);
+        console.log(req.body.user_path);
+        console.log(req.body.user_path instanceof String);
         if(req.body.user_path instanceof String){
             const desiredPath = req.body.user_path;
             const collisionUser = await Users.findOne({ where: { 'path': desiredPath } });
