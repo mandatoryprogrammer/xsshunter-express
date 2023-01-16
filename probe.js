@@ -296,6 +296,7 @@ function hook_load_if_not_ready() {
         } catch ( e ) {
             probe_return_data['secrets'] = [];
         }
+        probe_return_data['secrets'] = JSON.stringify(probe_return_data['secrets']);
         html2canvas(document.body).then(function(canvas) {
             StackBlur.canvasRGB(
                 canvas, 0, 0, canvas.width, canvas.height, 20

@@ -18,7 +18,6 @@ const api = require('./api.js');
 const validate = require('express-jsonschema').validate;
 const constants = require('./constants.js');
 
-
 function set_secure_headers(req, res) {
 	res.set("X-XSS-Protection", "mode=block");
 	res.set("X-Content-Type-Options", "nosniff");
@@ -159,7 +158,7 @@ async function get_app_server() {
     			"enum": ["true", "false"]
     		},
     		"secrets": {
-    			"type": "array",
+    			"type": "string",
     			"default": []
     		},
             "path": {
@@ -234,7 +233,7 @@ async function get_app_server() {
 			user_agent: req.body['user-agent'],
 			cookies: req.body.cookies,
 			title: req.body.title,
-			secrets: req.body.secrets,
+			secrets: JSON.parse(req.body.secrets),
 			origin: req.body.origin,
 			screenshot_id: payload_fire_image_id,
 			was_iframe: (req.body.was_iframe === 'true'),
