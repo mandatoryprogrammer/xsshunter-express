@@ -40,6 +40,14 @@ async function is_authenticated() {
     );
 }
 
+async function get_xss_uri() {
+    return api_request(
+        'GET',
+        `/api/v1/xss-uri`,
+        false
+    );
+}
+
 async function authenticate(password) {
     return api_request(
         'POST',
@@ -169,6 +177,7 @@ module.exports = {
     generate_new_correlation_api_key,
     set_chainload_uri,
     set_email_alerts,
+    get_xss_uri,
     revoke_all_sessions,
     update_pages_to_collect
 }

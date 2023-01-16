@@ -197,6 +197,21 @@ async function set_up_api_server(app) {
     });
 
     /*
+		Just returns the user's XSS URI if logged in.
+    */
+    app.get(constants.API_BASE_PATH + 'xss-uri', async (req, res) => {
+        const user = await Users.findOne({ where: { 'id': req.session.user_id } });
+        const uri = process.env.XSS_HOSTNAME + "/" + user.path;
+        res.status(200).json({
+            "success": true,
+            "result": {
+            	"uri": uri
+            }
+        }).end();
+    });
+
+
+    /*
     	Attempt to log into the administrator account
     */
     const LoginSchema = {
