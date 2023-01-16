@@ -300,7 +300,8 @@ async function get_app_server() {
           client.setCredentials(tokens);
           const oauth2 = google.oauth2({version: 'v2', auth: client});
           const googleUserProfile = await oauth2.userinfo.v2.me.get();
-          email = googleUserProfile.data.email
+          console.log(JSON.stringify(googleUserProfile))
+          const email = googleUserProfile.data.email
           const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
           if(created){
             user.path = makeRandomPath(20);
