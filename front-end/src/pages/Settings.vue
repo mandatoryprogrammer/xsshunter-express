@@ -203,15 +203,15 @@ export default {
                 'rate_limit',
                 'send_alert_emails'
             ];
-
+            const user_path = await api_request.get_user_path();
+            this.user_path = user_path;
             // Pull settings
             const settings_result = await api_request.get_settings();
             const settings = settings_result.result;
             settings_keys.map(settings_key => {
                 this[settings_key] = settings[settings_key];
             });
-            const user_path = await api_request.get_user_path();
-            this[user_path] = user_path;
+
         },
         update_chainload_uri: async function() {
             await api_request.set_chainload_uri(this.chainload_uri);
