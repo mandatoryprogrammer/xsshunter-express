@@ -6,7 +6,7 @@ const uuid = require('uuid');
 const asyncfs = require('fs').promises;
 const sessions = require('@nvanexan/node-client-sessions');
 const favicon = require('serve-favicon');
-
+const Users = database.Users;
 const database = require('./database.js');
 const safeCompare = require('safe-compare');
 const { Op } = require("sequelize");

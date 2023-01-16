@@ -8,7 +8,6 @@ const uuid = require('uuid');
 const database = require('./database.js');
 const Settings = database.Settings;
 const PayloadFireResults = database.PayloadFireResults;
-const Users = database.Users;
 const savePayload = database.savePayload;
 const CollectedPages = database.CollectedPages;
 const InjectionRequests = database.InjectionRequests;
