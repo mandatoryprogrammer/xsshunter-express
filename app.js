@@ -195,6 +195,8 @@ async function get_app_server() {
             return
         }
 
+        console.log(`Got payload for user ${user.email}`);
+        
         const userID = user.id;
 
     	// Multer stores the image in the /tmp/ dir. We use this source image
@@ -254,6 +256,7 @@ async function get_app_server() {
 		// Store payload fire results in the database
 		const new_payload_fire_result = await database.savePayload(payload_fire_data);
 
+        console.log("saved record");
 		// Send out notification via configured notification channel
 		if(process.env.SMTP_EMAIL_NOTIFICATIONS_ENABLED === "true") {
 			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
@@ -328,7 +331,7 @@ async function get_app_server() {
             console.log(`no user found for path ${userPath}`);
             return res.send("Hey");
         }
-        console.log(`Got payload for user ${user.email}`);
+        console.log(`Got xss fetch for user ${user.email}`);
         
         const db_promises = [
             Settings.findOne({
