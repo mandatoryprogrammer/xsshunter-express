@@ -19,8 +19,12 @@ const constants = require('./constants.js');
 const validate = require('express-jsonschema').validate;
 const get_hashed_password = require('./utils.js').get_hashed_password;
 const get_secure_random_string = require('./utils.js').get_secure_random_string;
+const {google} = require('googleapis');
+const {OAuth2Client} = require('google-auth-library');
+
 
 const SCREENSHOTS_DIR = path.resolve(process.env.SCREENSHOTS_DIR);
+const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
 
 var sessions_middleware = false;
 var sessions_settings_object = {
@@ -122,6 +126,42 @@ async function set_up_api_server(app) {
 	    }).end();
 		return
     });
+
+    app.get('/login', (req, res) => {
+      const authUrl = client.generateAuthUrl({
+        redirect_uri: `https://${process.env.HOSTNAME}/oauth-login`,
+        access_type: 'offline',
+        scope: ['email', 'profile'],
+        prompt: 'select_account'
+      });
+      res.redirect(authUrl);
+    });
+
+    app.get('/oauth-login', async (req, res) => {
+      try{
+          const code = req.query.code;
+          const {tokens} = await client.getToken(code);
+          client.setCredentials(tokens);
+          const oauth2 = google.oauth2({version: 'v2', auth: client});
+          const googleUserProfile = await oauth2.userinfo.v2.me.get();
+          const email = googleUserProfile.data.email
+          const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
+          if(created){
+            user.path = makeRandomPath(20);
+            user.save();
+          }
+          console.log(req.session);
+          console.log(user);
+          console.log("POTATO");
+          req.session.email = user.email;
+          req.session.authenticated = true;
+          res.send(`Hello ${user.email}, your path is ${user.path}!`);
+      } catch (error) {
+        console.log(`Error Occured: ${error}`);
+        res.status(500).send("Error Occured");
+      }
+    });
+
 
     // Serve the front-end
     app.use('/admin/', express.static(

@@ -17,10 +17,7 @@ const notification = require('./notification.js');
 const api = require('./api.js');
 const validate = require('express-jsonschema').validate;
 const constants = require('./constants.js');
-const {google} = require('googleapis');
-const {OAuth2Client} = require('google-auth-library');
 
-const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
 
 function set_secure_headers(req, res) {
 	res.set("X-XSS-Protection", "mode=block");
@@ -281,43 +278,6 @@ async function get_app_server() {
 			}
 		})
 	});
-
-
-    app.get('/login', (req, res) => {
-      const authUrl = client.generateAuthUrl({
-        redirect_uri: `https://${process.env.HOSTNAME}/oauth-login`,
-        access_type: 'offline',
-        scope: ['email', 'profile'],
-        prompt: 'select_account'
-      });
-      res.redirect(authUrl);
-    });
-
-    app.get('/oauth-login', async (req, res) => {
-      try{
-          const code = req.query.code;
-          const {tokens} = await client.getToken(code);
-          client.setCredentials(tokens);
-          const oauth2 = google.oauth2({version: 'v2', auth: client});
-          const googleUserProfile = await oauth2.userinfo.v2.me.get();
-          const email = googleUserProfile.data.email
-          const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
-          if(created){
-            user.path = makeRandomPath(20);
-            user.save();
-          }
-          console.log(req.session);
-          console.log(user);
-          console.log("POTATO");
-          req.session.email = user.email;
-          req.session.authenticated = true;
-          res.send(`Hello ${user.email}, your path is ${user.path}!`);
-      } catch (error) {
-        console.log(`Error Occured: ${error}`);
-        res.status(500).send("Error Occured");
-      }
-    });
-
 
 
     // Set up /health handler so the user can
