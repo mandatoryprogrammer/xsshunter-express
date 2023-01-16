@@ -181,7 +181,7 @@ export default {
                 alert('Path is empty, please provide a valid path to continue.');
                 return
             }
-            const res = await api_request.update_user_path(path);
+            const res = await api_request.update_user_path(desiredPath);
             const user_path = await api_request.get_user_path();
             this.user_path = user_path;
             if(res.success){
