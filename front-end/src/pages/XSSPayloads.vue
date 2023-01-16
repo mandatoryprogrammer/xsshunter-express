@@ -114,9 +114,12 @@ export default {
     async mounted() {
         // For debugging
         window.app = this;
-
+        const res = await api_request.get_xss_uri();
+        if (res["success"] == false){
+            window.location = "/login";
+        }
         // Base domain
-        this.base_domain = await api_request.get_xss_uri();
+        this.base_domain = res["result"]["uri"];
     },
     beforeDestroy() {}
 };
