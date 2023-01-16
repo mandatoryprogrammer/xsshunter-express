@@ -204,7 +204,7 @@ export default {
                 'send_alert_emails'
             ];
             const user_path = await api_request.get_user_path();
-            this.user_path = user_path;
+            this.user_path = user_path.result.path;
             // Pull settings
             const settings_result = await api_request.get_settings();
             const settings = settings_result.result;
