@@ -273,37 +273,6 @@ async function set_up_api_server(app) {
             },
         }
     }
-    app.post(constants.API_BASE_PATH + 'login', validate({ body: LoginSchema }), async (req, res) => {
-		const admin_user_password_record = await Settings.findOne({
-			where: {
-				key: constants.ADMIN_PASSWORD_SETTINGS_KEY
-			}
-		});
-		const admin_password_hash = admin_user_password_record.value;
-
-		// Compare user-provided password against admin password hash
-        const password_matches = await bcrypt.compare(
-            req.body.password,
-            admin_password_hash,
-        );
-
-        if (!password_matches) {
-            res.status(200).json({
-                "success": false,
-                "error": "Incorrect password, please try again.",
-                "code": "INVALID_CREDENTIALS"
-            }).end();
-            return
-        }
-
-        // Set session data to set user as authenticated
-        req.session.authenticated = true;
-
-        res.status(200).json({
-            "success": true,
-            "result": {}
-        }).end();
-    });
 
     /*
 		Deletes a given XSS payload(s)
@@ -639,19 +608,6 @@ async function set_up_api_server(app) {
         }
     }
     app.put(constants.API_BASE_PATH + 'settings', validate({ body: UpdateConfigSchema }), async (req, res) => {
-        if(req.body.password) {
-    		// Pull password record
-			const admin_user_password = await Settings.findOne({
-				where: {
-					key: constants.ADMIN_PASSWORD_SETTINGS_KEY
-				}
-			});
-
-			// Update password
-			const bcrypt_hash = await get_hashed_password(req.body.password);
-			admin_user_password.value = bcrypt_hash;
-			await admin_user_password.save();
-    	}
 
         if(req.body.correlation_api_key === true) {
             const correlation_api_key = get_secure_random_string(64);
