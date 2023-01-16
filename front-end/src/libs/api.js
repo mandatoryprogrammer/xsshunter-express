@@ -122,6 +122,25 @@ async function generate_new_correlation_api_key() {
     );
 }
 
+async function get_user_path() {
+    return api_request(
+        'PUT',
+        `/api/v1/user-path`,
+        false
+    );
+}
+
+async function update_user_path(path) {
+    return api_request(
+        'PUT',
+        `/api/v1/user-path`,
+        {
+            "user_path": path,
+        }
+    );
+}
+
+
 async function set_chainload_uri(chainload_uri) {
     return api_request(
         'PUT',
@@ -168,6 +187,8 @@ module.exports = {
     api_request,
     is_authenticated,
     authenticate,
+    get_user_path,
+    update_user_path,
     get_payload_fires,
     delete_payload_fires,
     get_collect_pages,

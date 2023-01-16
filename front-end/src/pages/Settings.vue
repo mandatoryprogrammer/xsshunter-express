@@ -21,13 +21,13 @@
                             </base-button>
                         </card>
                         <card>
-                            <h4 class="card-title">Master Password</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">Change your login password for this XSS Hunter express instance.</h6>
+                            <h4 class="card-title">XSSHunter path</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">This unique path ties injection payloads back to you. You can set it to something shorter (it defaults to 20 chars).</h6>
                             <p class="card-text">
-                                <base-input v-model="password" type="password" placeholder="*******************"></base-input>
+                                <base-input v-bind:value="user_path" type="text" placeholder="..."></base-input>
                             </p>
-                            <base-button type="primary" v-on:click="update_password">
-                                <i class="fas fa-lock"></i> Update Password
+                            <base-button type="primary" v-on:click="update_path">
+                                <i class="fas fa-lock"></i> Update Path
                             </base-button>
                         </card>
                         <card>
@@ -164,6 +164,7 @@ export default {
             ],
             chainload_uri: '',
             correlation_api_key: '',
+            user_path: '',
             pages_to_collect: [],
             selected_page_to_collect: [],
             new_page_to_collect: '',
@@ -174,15 +175,20 @@ export default {
     },
     watch: {},
     methods: {
-        update_password: async function() {
-            const password = this.password;
-            if(password === '') {
-                alert('Password is empty, please provide a valid password to continue.');
+        update_path: async function() {
+            const desiredPath = this.user_path;
+            if(desiredPath === '') {
+                alert('Path is empty, please provide a valid path to continue.');
                 return
             }
-            await api_request.update_password(this.password);
-            this.password = '';
-            toastr.success('Your instance password has been updated.', 'Password Updated')
+            const res = await api_request.update_user_path(path);
+            const user_path = await api_request.get_user_path();
+            this.user_path = user_path;
+            if(res.success){
+                toastr.success('Your user path has been updated.', 'Path Updated');
+            }else{
+                toastr.error(res.error, 'Path Update Error');
+            }
         },
         generate_new_correlation_api_key: async function() {
             await api_request.generate_new_correlation_api_key();
@@ -204,6 +210,8 @@ export default {
             settings_keys.map(settings_key => {
                 this[settings_key] = settings[settings_key];
             });
+            const user_path = await api_request.get_user_path();
+            this[user_path] = user_path;
         },
         update_chainload_uri: async function() {
             await api_request.set_chainload_uri(this.chainload_uri);

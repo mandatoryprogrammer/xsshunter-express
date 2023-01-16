@@ -210,6 +210,54 @@ async function set_up_api_server(app) {
         }).end();
     });
 
+    /*
+		Get the user's path.
+    */
+    app.get(constants.API_BASE_PATH + 'user-path', async (req, res) => {
+        const user = await Users.findOne({ where: { 'id': req.session.user_id } });
+        res.status(200).json({
+            "success": true,
+            "result": {
+            	"uri": user.path
+            }
+        }).end();
+    });
+
+    /*
+		Update the user's path.
+    */
+    app.put(constants.API_BASE_PATH + 'user-path', async (req, res) => {
+        if(req.body.path instanceof String){
+            const desiredPath = req.body.path;
+            const collisionUser = await Users.findOne({ where: { 'path': desiredPath } });
+        }else{
+            return res.status(200).json({
+                "success": false,
+                "error": "invalid path"
+            }).end();
+        }
+        if( collisionUser ){
+            return res.status(200).json({
+                "success": false,
+                "error": "Path taken by another user"
+            }).end();
+        }
+
+        const user = await Users.findOne({ where: { 'id': req.session.user_id } });
+        user.path = desiredPath;
+        user.save();
+        res.status(200).json({
+            "success": true,
+            "result": {
+            	"uri": user.path
+            }
+        }).end();
+    });
+
+
+
+
+
 
     /*
     	Attempt to log into the administrator account
