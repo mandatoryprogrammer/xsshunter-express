@@ -204,7 +204,7 @@ function send_collected_page( page_data ) {
 function look_for_secrets( data ) {
     var findings = [];
     let secret_regexes = {
-        "aws": "\b((?:AKIA|ABIA|ACCA|ASIA)[0-9A-Z]{16})\b",
+        "aws": "((?:AKIA|ABIA|ACCA|ASIA)[0-9A-Z]{16})",
         "slack": "(https://hooks\.slack\.com/services/[A-Za-z0-9+/]{44,46})",
         "GCP": "\{[^{]+auth_provider_x509_cert_url[^}]+\}"
     }
