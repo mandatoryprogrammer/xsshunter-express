@@ -377,9 +377,9 @@ export default {
 .pagination .page-item.active>.page-link,
 .pagination .page-item.active>.page-link:focus,
 .pagination .page-item.active>.page-link:hover {
-    background: #e14eca;
-    background-image: -webkit-gradient(linear, right top, left bottom, from(#e14eca), color-stop(#ba54f5), to(#e14eca));
-    background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
+    background: #5BB381;
+    background-image: -webkit-gradient(linear, right top, left bottom, from(#5BB381), color-stop(#AE8C57), to(#38645A));
+    background-image: linear-gradient(to bottom left, #5BB381, #AE8C57, #38645A);
     background-size: 210% 210%;
     background-position: 100% 0;
     color: #fff
@@ -412,9 +412,9 @@ export default {
 .pagination.pagination-primary .page-item.active>.page-link,
 .pagination.pagination-primary .page-item.active>.page-link:focus,
 .pagination.pagination-primary .page-item.active>.page-link:hover {
-    background: #e14eca;
-    background-image: -webkit-gradient(linear, right top, left bottom, from(#e14eca), color-stop(#ba54f5), to(#e14eca));
-    background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
+    background: #38645A;
+    background-image: -webkit-gradient(linear, right top, left bottom, from(#38645A), color-stop(#ba54f5), to(#38645A));
+    background-image: linear-gradient(to bottom left, #38645A, #ba54f5, #38645A);
     background-size: 210% 210%;
     background-position: 100% 0
 }
@@ -454,7 +454,7 @@ export default {
 .pagination.pagination-neutral .page-item.active>.page-link:hover {
     background-color: #fff;
     border-color: #fff;
-    color: #e14eca
+    color: #38645A
 }
 
 
@@ -657,7 +657,7 @@ a.badge-dark:focus {
 }
 
 .stopp1 {
-    stop-color: #e14eca;
+    stop-color: #38645A;
 }
 
 .stopp2 {
@@ -714,7 +714,7 @@ a.badge-dark:focus {
 
 .gradient-text {
     background-color: #f3ec78;
-    background-image: linear-gradient(45deg, #e14eca, #e14eca);
+    background-image: linear-gradient(45deg, #38645A, #38645A);
     background-size: 100%;
     -webkit-background-clip: text;
     -moz-background-clip: text;
