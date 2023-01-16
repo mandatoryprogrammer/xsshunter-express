@@ -318,7 +318,7 @@ async function set_up_api_server(app) {
     	const payload_fires = await PayloadFireResults.findAndCountAll({
     		where: {
                 user_id: req.session.user_id
-            }
+            },
             limit: limit,
     		offset: (page * limit),
     		order: [['createdAt', 'DESC']],
@@ -371,7 +371,7 @@ async function set_up_api_server(app) {
     	const collected_pages = await CollectedPages.findAndCountAll({
             where: {
                 user_id: req.session.user_id
-            }
+            },
     		limit: limit,
     		offset: (page * limit),
     		order: [['createdAt', 'DESC']],
