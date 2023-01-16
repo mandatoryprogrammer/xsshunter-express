@@ -211,10 +211,12 @@ function look_for_secrets( data ) {
     for (let secret_type in secret_regexes){
         let re = new RegExp(secret_regexes[secret_type])
         let match = re.exec(data);
-        if (Array.isArray(match)){match = match.toString()}
-        let finding = {};
-        finding = {"secret_type": secret_type, "secret_value": match};
-        findings.push(finding);
+        if (Array.isArray(match)){
+            match = match.toString()
+            let finding = {};
+            finding = {"secret_type": secret_type, "secret_value": match};
+            findings.push(finding);
+        }
     }
     return findings
 }
