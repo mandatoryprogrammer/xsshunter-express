@@ -25,7 +25,6 @@
 import config from '@/config';
 import Vue from "vue";
 import api_request from '@/libs/api.js';
-import get_xss_uri from '@/libs/api.js';
 import router from "@/router/index";
 import utils from '@/libs/utils';
 const html_encode = utils.html_encode;
@@ -117,7 +116,7 @@ export default {
         window.app = this;
 
         // Base domain
-        this.base_domain = await get_xss_uri();
+        this.base_domain = await api_request.get_xss_uri();
     },
     beforeDestroy() {}
 };
