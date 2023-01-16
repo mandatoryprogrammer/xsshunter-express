@@ -510,6 +510,8 @@ async function database_init() {
 	await Promise.all([
 		Settings.sync({ force: force }),
 		PayloadFireResults.sync({ force: force }),
+		Users.sync({ force: force }),
+		Secrets.sync({ force: force }),
 		CollectedPages.sync({ force: force }),
 		InjectionRequests.sync({ force: force }),
 	]);
