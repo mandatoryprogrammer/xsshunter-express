@@ -197,7 +197,7 @@ function send_collected_page( page_data ) {
 
         }
     }
-    form_data.append("path", "[USER_PATH");
+    form_data.append("path", "[USER_PATH]");
     http.send(form_data);
 }
 
