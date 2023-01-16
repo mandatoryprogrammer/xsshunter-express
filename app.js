@@ -31,17 +31,6 @@ function set_secure_headers(req, res) {
 	}
 }
 
-function makeRandomPath(length) {
-    var result           = '';
-    var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
-
 async function check_file_exists(file_path) {
 	return asyncfs.access(file_path, fs.constants.F_OK).then(() => {
 		return true;

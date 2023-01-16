@@ -36,6 +36,17 @@ var sessions_settings_object = {
         secure: true
     }
 }
+
+function makeRandomPath(length) {
+    var result           = '';
+    var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 function session_wrapper_function(req, res, next) {
     return sessions_middleware(req, res, next);
 }
