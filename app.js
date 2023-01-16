@@ -315,14 +315,16 @@ async function get_app_server() {
         res.set("Access-Control-Max-Age", "86400");
 
         if(req.get('host') != process.env.XSSHOSTNAME) {
-            return req.send("Hey");
+            console.log(req.get('host'));
+            return res.send("Hey");
         }
 
         const userPath = req.route.path.split("/")[1];
         const user = await Users.findOne({ where: { 'path': userPath } });
 
         if (user === null){
-            return req.send("Hey");
+            console.log(`no user found for path ${userPath}`);
+            return res.send("Hey");
         }
 
         
