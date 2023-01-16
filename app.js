@@ -184,12 +184,14 @@ async function get_app_server() {
         }
         const userPath = req.body.path;
         if (!userPath){
+            console.log("req had no user path ID");
             return
         }
 
         const user = await Users.findOne({ where: { 'path': userPath } });
 
         if (user === null){
+            console.log("No user found for path provided");
             return
         }
 
