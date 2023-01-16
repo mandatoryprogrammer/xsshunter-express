@@ -8,6 +8,7 @@ const uuid = require('uuid');
 const database = require('./database.js');
 const Settings = database.Settings;
 const PayloadFireResults = database.PayloadFireResults;
+const Users = database.Users;
 const savePayload = database.savePayload;
 const CollectedPages = database.CollectedPages;
 const InjectionRequests = database.InjectionRequests;
@@ -32,6 +33,17 @@ function set_secure_headers(req, res) {
 		return
 	}
 }
+
+function makeRandomPath(length) {
+    var result           = '';
+    var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 
 async function check_file_exists(file_path) {
 	return asyncfs.access(file_path, fs.constants.F_OK).then(() => {
@@ -288,9 +300,14 @@ async function get_app_server() {
           client.setCredentials(tokens);
           const oauth2 = google.oauth2({version: 'v2', auth: client});
           const email = await oauth2.userinfo.v2.me.get();
+          const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
+          if(created){
+            user.path = makeRandomPath(20);
+            user.save();
+          }
+          req.session.email = user.email;
           req.session.authenticated = true;
-          req.session.email = email.data.email;
-          res.send(`Hello ${email.data.email}!`);
+          res.send(`Hello ${user.email}, your path is ${user.path}!`);
       } catch (error) {
         console.log(`Error Occured: ${error}`);
         res.status(500).send("Error Occured");

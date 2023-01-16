@@ -62,6 +62,45 @@ Settings.init({
 /*
     Secrets found in DOMs
 */
+class Users extends Model {}
+Secrets.init({
+ 	id: {
+		allowNull: false,
+		primaryKey: true,
+		type: Sequelize.UUID,
+		defaultValue: uuid.v4()
+	},   
+    email: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        unique: true
+    },
+    path: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        unique: true
+    }
+}, {
+	sequelize,
+	modelName: 'userss',
+	indexes: [
+		{
+			unique: false,
+			fields: ['email'],
+			method: 'BTREE',
+		},
+		{
+			unique: false,
+			fields: ['path'],
+			method: 'BTREE',
+		}
+]
+});
+
+
+/*
+    Secrets found in DOMs
+*/
 class Secrets extends Model {}
 Secrets.init({
  	id: {

@@ -10,7 +10,6 @@ const favicon = require('serve-favicon');
 const database = require('./database.js');
 const safeCompare = require('safe-compare');
 const { Op } = require("sequelize");
-const sequelize = database.sequelize;
 const Settings = database.Settings;
 const PayloadFireResults = database.PayloadFireResults;
 const CollectedPages = database.CollectedPages;
