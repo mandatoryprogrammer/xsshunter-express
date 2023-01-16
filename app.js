@@ -319,7 +319,7 @@ async function get_app_server() {
             return res.send("Hey");
         }
 
-        const userPath = req.route.path.split("/")[1];
+        const userPath = req.originalUrl.split("/")[1];
         const user = await Users.findOne({ where: { 'path': userPath } });
 
         if (user === null){
