@@ -77,6 +77,7 @@ async function set_up_api_server(app) {
     // Session management
     app.use(session_wrapper_function);
 
+    /* lol make this be a thing later TODO
     // Limit how big uploads are
     app.use(fileUpload({
         limits: {
@@ -84,6 +85,8 @@ async function set_up_api_server(app) {
         },
         abortOnLimit: true
      }));
+    */
+
 
     // If that's not present, the request should be rejected.
     app.use(async function(req, res, next) {
