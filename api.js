@@ -77,6 +77,14 @@ async function set_up_api_server(app) {
     // Session management
     app.use(session_wrapper_function);
 
+    // Limit how big uploads are
+    app.use(fileUpload({
+        limits: {
+            fileSize: 2000000 //2mb
+        },
+        abortOnLimit: true
+     }));
+
     // If that's not present, the request should be rejected.
     app.use(async function(req, res, next) {
     	// Must be an API route else CSRF protection doesn't matter

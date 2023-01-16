@@ -36,7 +36,7 @@
     props: {
       title: {
         type: String,
-        default: "XSS Hunter Express"
+        default: "XSS Hunter"
       },
       backgroundColor: {
         type: String,

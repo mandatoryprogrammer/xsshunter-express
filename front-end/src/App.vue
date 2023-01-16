@@ -5,7 +5,7 @@
         <!-- Login modal if not authenticated -->
         <modal class="show d-block" body-classes="p-0" modal-classes="modal-dialog-centered modal-sm ]" v-if="show_login_prompt">
             <card type="secondary" header-classes="bg-white pb-5" body-classes="px-lg-5 py-lg-5" class="border-0 mb-0" style="text-align: center">
-                <h3>XSS Hunter Express<br />
+                <h3>XSS Hunter<br />
                     <i>Please login to continue.</i></h3>
                 <base-input alternative v-model="password" type="password" placeholder="Password" autofocus v-on:keyup.enter="attempt_login"></base-input>
                 <base-button block simple type="primary" v-on:click="attempt_login">
@@ -101,7 +101,7 @@ function get_random_number_in_range(min, max) {
 }
 
 .eye-pink {
-    color: #e14eca;
+    color: #5BB381;
 }
 
 .progress-bar-animated {
@@ -120,7 +120,7 @@ function get_random_number_in_range(min, max) {
     color: #fff;
     text-align: center;
     white-space: nowrap;
-    background-color: #007bff;
+    background-color: #6B5B9A;
     transition: width .6s ease;
 }
 
@@ -148,6 +148,6 @@ function get_random_number_in_range(min, max) {
 }
 
 .bg-purp {
-    background-color: #8965e0 !important;
+    background-color: #6B5B9A !important;
 }
 </style>
