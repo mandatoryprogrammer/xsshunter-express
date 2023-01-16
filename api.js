@@ -8,6 +8,7 @@ const sessions = require('@nvanexan/node-client-sessions');
 const favicon = require('serve-favicon');
 const database = require('./database.js');
 const Users = database.Users;
+const Secrets = database.Secrets;
 const safeCompare = require('safe-compare');
 const { Op } = require("sequelize");
 const Settings = database.Settings;

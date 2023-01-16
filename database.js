@@ -568,5 +568,6 @@ module.exports = {
 	database_init,
 	update_settings_value,
     savePayload,
+    Secrets,
     Users
 }
