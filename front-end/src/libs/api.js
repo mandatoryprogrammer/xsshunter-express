@@ -124,7 +124,7 @@ async function generate_new_correlation_api_key() {
 
 async function get_user_path() {
     return api_request(
-        'PUT',
+        'GET',
         `/api/v1/user-path`,
         false
     );

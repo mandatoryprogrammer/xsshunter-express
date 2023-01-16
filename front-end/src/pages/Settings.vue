@@ -21,7 +21,7 @@
                             </base-button>
                         </card>
                         <card>
-                            <h4 class="card-title">XSSHunter path</h4>
+                            <h4 class="card-title">XSSHunter Path</h4>
                             <h6 class="card-subtitle mb-2 text-muted">This unique path ties injection payloads back to you. You can set it to something shorter (it defaults to 20 chars).</h6>
                             <p class="card-text">
                                 <base-input v-bind:value="user_path" type="text" placeholder="..."></base-input>
