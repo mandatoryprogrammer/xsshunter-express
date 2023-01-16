@@ -52,7 +52,6 @@ export default {
             return auth_result.result.is_authenticated;
         },
         async attempt_login() {
-            window.location.href = "/login";
             const login_result = await api_request.authenticate(
                 this.password
             );
@@ -83,6 +82,10 @@ export default {
         this.$watch('$sidebar.showSidebar', this.toggleNavOpen);
 
         this.is_authed = await this.is_authenticated();
+
+        if (! this.is_authed){
+            window.location = "/login";
+        }
 
         this.loading = false;
     }
