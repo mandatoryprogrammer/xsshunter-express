@@ -328,7 +328,7 @@ async function get_app_server() {
             console.log(`no user found for path ${userPath}`);
             return res.send("Hey");
         }
-
+        console.log(`Got payload for user ${user.email}`);
         
         const db_promises = [
             Settings.findOne({
