@@ -63,7 +63,7 @@ Settings.init({
     Secrets found in DOMs
 */
 class Users extends Model {}
-Secrets.init({
+Users.init({
  	id: {
 		allowNull: false,
 		primaryKey: true,
@@ -82,7 +82,7 @@ Secrets.init({
     }
 }, {
 	sequelize,
-	modelName: 'userss',
+	modelName: 'users',
 	indexes: [
 		{
 			unique: false,
