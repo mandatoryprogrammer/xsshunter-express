@@ -77,7 +77,7 @@ Users.init({
     },
     path: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
         unique: true
     }
 }, {
