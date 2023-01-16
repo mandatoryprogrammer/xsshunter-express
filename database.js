@@ -554,5 +554,6 @@ module.exports = {
 	InjectionRequests,
 	database_init,
 	update_settings_value,
-    savePayload
+    savePayload,
+    Users
 }
