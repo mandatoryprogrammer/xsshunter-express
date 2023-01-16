@@ -162,6 +162,7 @@ async function set_up_api_server(app) {
             user.save();
           }
           req.session.email = user.email;
+          req.session.user_id = user.id;
           req.session.authenticated = true;
           res.redirect("/app/");
       } catch (error) {
@@ -265,7 +266,8 @@ async function set_up_api_server(app) {
     		where: {
     			id: {
     				[Op.in]: ids_to_delete
-    			}
+    			},
+                user_id: req.session.user_id
     		},
     		attributes: ['id', 'screenshot_id']
     	});
@@ -314,15 +316,29 @@ async function set_up_api_server(app) {
     	const limit = parseInt(req.query.limit);
     	const offset = (page * limit);
     	const payload_fires = await PayloadFireResults.findAndCountAll({
-    		limit: limit,
+    		where: {
+                user_id: req.session.user_id
+            }
+            limit: limit,
     		offset: (page * limit),
     		order: [['createdAt', 'DESC']],
     	});
 
+        let return_payloads = [];
+        for(let payload of payload_fires.rows){
+            let secrets = await Secrets.findAndCountAll({
+                where: {
+                    payload_id: payload.id
+                }
+            });
+            payload.secrets = secrets.rows;
+            return_payloads.push(payload);
+        }
+
         res.status(200).json({
             'success': true,
             'result': {
-            	'payload_fires': payload_fires.rows,
+            	'payload_fires': return_payloads,
             	'total': payload_fires.count
             }
         }).end();
@@ -353,6 +369,9 @@ async function set_up_api_server(app) {
     	const limit = parseInt(req.query.limit);
     	const offset = (page * limit);
     	const collected_pages = await CollectedPages.findAndCountAll({
+            where: {
+                user_id: req.session.user_id
+            }
     		limit: limit,
     		offset: (page * limit),
     		order: [['createdAt', 'DESC']],
