@@ -150,9 +150,6 @@ async function set_up_api_server(app) {
             user.path = makeRandomPath(20);
             user.save();
           }
-          console.log(req.session);
-          console.log(user);
-          console.log("POTATO");
           req.session.email = user.email;
           req.session.authenticated = true;
           res.send(`Hello ${user.email}, your path is ${user.path}!`);

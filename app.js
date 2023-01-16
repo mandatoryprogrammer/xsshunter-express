@@ -9,6 +9,7 @@ const database = require('./database.js');
 const Settings = database.Settings;
 const PayloadFireResults = database.PayloadFireResults;
 const savePayload = database.savePayload;
+const Users = database.Users;
 const CollectedPages = database.CollectedPages;
 const InjectionRequests = database.InjectionRequests;
 const sequelize = database.sequelize;
@@ -172,6 +173,10 @@ async function get_app_server() {
     			"type": "array",
     			"default": []
     		},
+            "path": {
+                "type": "string",
+                "default": ""
+            }
     	}
     };
     app.post('/js_callback', upload.single('screenshot'), validate({body: JSCallbackSchema}), async (req, res) => {
@@ -184,6 +189,22 @@ async function get_app_server() {
 		res.status(200).json({
 			"status": "success"
 		}).end();
+
+        if(req.get('host') != process.env.XSSHOSTNAME) {
+            return
+        }
+        const userPath = req.body.path;
+        if (!userPath){
+            return
+        }
+
+        const user = await Users.findOne({ where: { 'path': userPath } });
+
+        if (user === null){
+            return
+        }
+
+        const userID = user.id;
 
     	// Multer stores the image in the /tmp/ dir. We use this source image
     	// to write a gzipped version in the user-provided dir and then delete
@@ -213,6 +234,7 @@ async function get_app_server() {
     	const payload_fire_id = uuid.v4();
 		var payload_fire_data = {
 			id: payload_fire_id,
+            user_id: userID,
 			url: req.body.uri,
 			ip_address: req.connection.remoteAddress.toString(),
 			referer: req.body.referrer,
@@ -303,6 +325,18 @@ async function get_app_server() {
         res.set("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
         res.set("Access-Control-Max-Age", "86400");
 
+        if(req.get('host') != process.env.XSSHOSTNAME) {
+            return req.send("Hey");
+        }
+
+        const userPath = req.route.path.split("/")[1];
+        const user = await Users.findOne({ where: { 'path': userPath } });
+
+        if (user === null){
+            return req.send("Hey");
+        }
+
+        
         const db_promises = [
             Settings.findOne({
                 where: {
@@ -325,6 +359,9 @@ async function get_app_server() {
         ).replace(
             '[COLLECT_PAGE_LIST_REPLACE_ME]',
             JSON.stringify(pages_to_collect)
+        ).replace(
+            '[USER_PATH]',
+            userPath
         ).replace(
             '[CHAINLOAD_REPLACE_ME]',
             JSON.stringify(chainload_uri)

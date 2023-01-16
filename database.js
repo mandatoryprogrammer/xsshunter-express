@@ -158,6 +158,12 @@ PayloadFireResults.init({
 		allowNull: false,
 		unique: false
 	},
+    // The id of the user who the payload goes with
+	user_id: {
+		type: Sequelize.TEXT,
+		allowNull: false,
+		unique: false
+	},
 	// IP address of the user that
 	// triggered the XSS payload fire.
 	ip_address: {
@@ -228,6 +234,11 @@ PayloadFireResults.init({
 		{
 			unique: false,
 			fields: ['url'],
+			method: 'BTREE',
+		},
+		{
+			unique: false,
+			fields: ['user_id'],
 			method: 'BTREE',
 		},
 		{
