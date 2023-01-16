@@ -180,7 +180,7 @@ async function get_app_server() {
 
         if(req.get('host') != process.env.XSS_HOSTNAME) {
             console.log(`got bad host ${req.get('host')}`);
-            return
+            return res.redirect("/app/")
         }
         const userPath = req.body.path;
         if (!userPath){
@@ -321,7 +321,7 @@ async function get_app_server() {
 
         if(req.get('host') != process.env.XSS_HOSTNAME) {
             console.log(req.get('host'));
-            return res.send("Hey");
+            return res.redirect("/app/");
         }
 
         const userPath = req.originalUrl.split("/")[1];

@@ -172,7 +172,7 @@ async function set_up_api_server(app) {
 
 
     // Serve the front-end
-    app.use('/admin/', express.static(
+    app.use('/app/', express.static(
     	'./front-end/dist/',
     	{
     		setHeaders: function (res, path, stat) {
