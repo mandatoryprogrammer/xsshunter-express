@@ -352,8 +352,8 @@ async function get_app_server() {
         ).replace(
             '[COLLECT_PAGE_LIST_REPLACE_ME]',
             JSON.stringify(pages_to_collect)
-        ).replaceAll(
-            '[USER_PATH]',
+        ).replace(
+            /\[USER_PATH\]/g,
             userPath
         ).replace(
             '[CHAINLOAD_REPLACE_ME]',
