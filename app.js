@@ -178,7 +178,8 @@ async function get_app_server() {
 			"status": "success"
 		}).end();
 
-        if(req.get('host') != process.env.XSSHOSTNAME) {
+        if(req.get('host') != process.env.XSS_HOSTNAME) {
+            console.log(`got bad host ${req.get('host')}`);
             return
         }
         const userPath = req.body.path;
