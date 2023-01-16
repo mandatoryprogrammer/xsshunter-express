@@ -314,7 +314,7 @@ async function get_app_server() {
         res.set("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
         res.set("Access-Control-Max-Age", "86400");
 
-        if(req.get('host') != process.env.XSSHOSTNAME) {
+        if(req.get('host') != process.env.XSS_HOSTNAME) {
             console.log(req.get('host'));
             return res.send("Hey");
         }
