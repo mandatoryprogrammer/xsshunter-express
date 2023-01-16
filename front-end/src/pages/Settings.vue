@@ -183,7 +183,7 @@ export default {
             }
             const res = await api_request.update_user_path(desiredPath);
             const user_path = await api_request.get_user_path();
-            this.user_path = user_path;
+            this.user_path = user_path.result.path;
             if(res.success){
                 toastr.success('Your user path has been updated.', 'Path Updated');
             }else{

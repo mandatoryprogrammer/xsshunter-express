@@ -218,7 +218,7 @@ async function set_up_api_server(app) {
         res.status(200).json({
             "success": true,
             "result": {
-            	"uri": user.path
+            	"path": user.path
             }
         }).end();
     });
@@ -228,7 +228,7 @@ async function set_up_api_server(app) {
     */
     app.put(constants.API_BASE_PATH + 'user-path', async (req, res) => {
         if(req.body.path instanceof String){
-            const desiredPath = req.body.path;
+            const desiredPath = req.body.user_path;
             const collisionUser = await Users.findOne({ where: { 'path': desiredPath } });
         }else{
             return res.status(200).json({
@@ -249,7 +249,7 @@ async function set_up_api_server(app) {
         res.status(200).json({
             "success": true,
             "result": {
-            	"uri": user.path
+            	"path": user.path
             }
         }).end();
     });
