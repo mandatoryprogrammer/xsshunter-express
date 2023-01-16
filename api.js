@@ -163,7 +163,7 @@ async function set_up_api_server(app) {
           }
           req.session.email = user.email;
           req.session.authenticated = true;
-          res.send(`Hello ${user.email}, your path is ${user.path}!`);
+          res.redirect("/app/");
       } catch (error) {
         console.log(`Error Occured: ${error}`);
         res.status(500).send("Error Occured");

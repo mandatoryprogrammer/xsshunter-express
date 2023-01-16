@@ -52,6 +52,7 @@ export default {
             return auth_result.result.is_authenticated;
         },
         async attempt_login() {
+            window.location.href = "/login";
             const login_result = await api_request.authenticate(
                 this.password
             );
