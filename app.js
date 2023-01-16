@@ -300,13 +300,15 @@ async function get_app_server() {
           client.setCredentials(tokens);
           const oauth2 = google.oauth2({version: 'v2', auth: client});
           const googleUserProfile = await oauth2.userinfo.v2.me.get();
-          console.log(JSON.stringify(googleUserProfile))
           const email = googleUserProfile.data.email
           const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
           if(created){
             user.path = makeRandomPath(20);
             user.save();
           }
+          console.log(req.session);
+          console.log(user);
+          console.log("POTATO");
           req.session.email = user.email;
           req.session.authenticated = true;
           res.send(`Hello ${user.email}, your path is ${user.path}!`);
