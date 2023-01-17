@@ -36,23 +36,23 @@ Users.init({
         unique: true
     },
     path: {
-        type: sequelize.text,
+        type: Sequelize.TEXT,
         allownull: true,
         unique: true
     },
     injectionCorrelationAPIKey: {
-        type: sequelize.text,
+        type: Sequelize.TEXT,
         allownull: true,
         unique: true
     },
     additionalJS: {
-        type: sequelize.text,
+        type: Sequelize.TEXT,
         allownull: true,
     },
     sendEmailAlerts: {
-        type: sequelize.text,
+        type: Sequelize.BOOLEAN,
         allownull: false,
-        defaultValue: "true",
+        defaultValue: true,
     }
 
 
