@@ -20,46 +20,6 @@ const sequelize = new Sequelize(
 const Model = Sequelize.Model;
 
 /*
-	Storage for XSS Hunter Express settings.
-
-	All settings keys must be unique.
-
-	Additionally stores admin credentials for the 
-	single user that can authenticate.
-*/
-class Settings extends Model {}
-Settings.init({
-	id: {
-		allowNull: false,
-		primaryKey: true,
-		type: Sequelize.UUID,
-		defaultValue: uuid.v4()
-	},
-	// Setting name
-	key: {
-		type: Sequelize.TEXT,
-		allowNull: true,
-		unique: true
-	},
-	// Setting value
-	value: {
-		type: Sequelize.TEXT,
-		allowNull: true,
-	},
-}, {
-	sequelize,
-	modelName: 'settings',
-	indexes: [
-		{
-			unique: true,
-			fields: ['key'],
-			method: 'BTREE',
-		}
-	]
-});
-
-
-/*
     Secrets found in DOMs
 */
 class Users extends Model {}
@@ -76,10 +36,22 @@ Users.init({
         unique: true
     },
     path: {
-        type: Sequelize.TEXT,
-        allowNull: true,
+        type: sequelize.text,
+        allownull: true,
+        unique: true
+    },
+    injectionCorrelationAPIKey: {
+        type: sequelize.text,
+        allownull: true,
+        unique: true
+    },
+    additionalJS: {
+        type: sequelize.text,
+        allownull: true,
         unique: true
     }
+
+
 }, {
 	sequelize,
 	modelName: 'users',
@@ -381,57 +353,6 @@ InjectionRequests.init({
 	]
 });
 
-async function initialize_configs() {
-	// Check for existing session secret value
-	const session_secret_setting = await Settings.findOne({
-		where: {
-			key: constants.session_secret_key
-		}
-	});
-
-	// If it exists, there's nothing else to do here.
-	if(session_secret_setting) {
-		return
-	}
-
-	console.log(`No session secret set, generating one now...`);
-
-	// Since it doesn't exist, generate one.
-	await Settings.create({
-		id: uuid.v4(),
-		key: constants.session_secret_key,
-		value: get_secure_random_string(64)
-	});
-
-	console.log(`Session secret generated successfully!`);
-}
-
-async function setup_admin_user(password) {
-	// If there's an existing admin user, skip this.
-	// Check for existing session secret value
-	const admin_user_password = await Settings.findOne({
-		where: {
-			key: constants.ADMIN_PASSWORD_SETTINGS_KEY
-		}
-	});
-
-	// If user is already set up then there's nothing
-	// for us to do here, return.
-	if(admin_user_password) {
-		return false
-	}
-
-	const bcrypt_hash = await get_hashed_password(password);
-
-	// Set up the admin user
-	await Settings.create({
-		id: uuid.v4(),
-		key: constants.ADMIN_PASSWORD_SETTINGS_KEY,
-		value: bcrypt_hash
-	});
-
-	return true;
-}
 
 function get_default_user_created_banner(password) {
 	return `
@@ -444,16 +365,7 @@ function get_default_user_created_banner(password) {
 ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
                                                                            
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-	An admin user (for the admin control panel) has been created
-	with the following password:
-
-	PASSWORD: ${password}
-
-	XSS Hunter Express has only one user for the instance. Do not
-	share this password with anyone who you don't trust. Save it
-	in your password manager and don't change it to anything that
-	is bruteforcable.
-
+	Hi. I love you.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  █████╗ ████████╗████████╗███████╗███╗   ██╗████████╗██╗ ██████╗ ███╗   ██╗
 ██╔══██╗╚══██╔══╝╚══██╔══╝██╔════╝████╗  ██║╚══██╔══╝██║██╔═══██╗████╗  ██║
@@ -466,60 +378,16 @@ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 `;
 }
 
-async function initialize_users() {
-	// Check if the admin user has been created.
-	// If not then set it up.
-
-	// Generate cryptographically-secure random
-	// password for the default user we're adding.
-	const new_password = get_secure_random_string(32);
-
-	// Create user and add to database
-	const new_user_created = await setup_admin_user(
-		new_password
-	);
-
-	if(!new_user_created) {
-		return
-	}
-
-	// Now we need to write these credentials to the
-	// filesystem in a file so the user can retrieve
-	// them.
-	const banner_message = get_default_user_created_banner(
-		new_password
-	);
-
+async function print_banner() {
 	console.log(banner_message);
 }
 
-// Set up correlation API with a randomly
-// generated API key to auth with.
-async function initialize_correlation_api() {
-	const existing_correlation_key = await Settings.findOne({
-		where: {
-			key: constants.CORRELATION_API_SECRET_SETTINGS_KEY
-		}
-	});
-
-	if(existing_correlation_key) {
-		return
-	}
-
-	const api_key = get_secure_random_string(64);
-	await Settings.create({
-		id: uuid.v4(),
-		key: constants.CORRELATION_API_SECRET_SETTINGS_KEY,
-		value: api_key
-	});
-}
 
 async function database_init() {
 	const force = false;
 
 	// Set up database schema
 	await Promise.all([
-		Settings.sync({ force: force }),
 		PayloadFireResults.sync({ force: force }),
 		Users.sync({ force: force }),
 		Secrets.sync({ force: force }),
@@ -528,45 +396,17 @@ async function database_init() {
 	]);
 
 	await Promise.all([
-		// Set up configs if they're not already set up.
-		initialize_configs(),
-
 		// Set up admin panel user if not already set up.
-		initialize_users(),
-
-		// Set up the correlation API if not already set up
-		initialize_correlation_api(),
+		print_banner(),
 	]);
-}
-
-async function update_settings_value(settings_key, new_value) {
-	const settings_record = await Settings.findOne({
-		where: {
-			key: settings_key
-		}
-	});
-
-	if(settings_record) {
-		settings_record.value = new_value;
-		await settings_record.save();
-		return
-	}
-
-	await Settings.create({
-		id: uuid.v4(),
-		key: settings_key,
-		value: new_value
-	});
 }
 
 module.exports = {
 	sequelize,
-	Settings,
 	PayloadFireResults,
 	CollectedPages,
 	InjectionRequests,
 	database_init,
-	update_settings_value,
     savePayload,
     Secrets,
     Users

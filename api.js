@@ -11,11 +11,9 @@ const Users = database.Users;
 const Secrets = database.Secrets;
 const safeCompare = require('safe-compare');
 const { Op } = require("sequelize");
-const Settings = database.Settings;
 const PayloadFireResults = database.PayloadFireResults;
 const CollectedPages = database.CollectedPages;
 const InjectionRequests = database.InjectionRequests;
-const update_settings_value = database.update_settings_value;
 const constants = require('./constants.js');
 const validate = require('express-jsonschema').validate;
 const get_hashed_password = require('./utils.js').get_hashed_password;
@@ -54,11 +52,7 @@ function session_wrapper_function(req, res, next) {
 
 async function set_up_api_server(app) {
     // Check for existing session secret value
-    const session_secret_setting = await Settings.findOne({
-    	where: {
-    		key: constants.session_secret_key
-    	}
-    });
+    const session_secret_setting = process.env.SESSION_SECRET_KEY;
 
     if (!session_secret_setting) {
     	console.error(`No session secret is set, can't start API server (this really shouldn't happen...)!`);
@@ -118,6 +112,10 @@ async function set_up_api_server(app) {
             constants.API_BASE_PATH + 'payloadfires',
             constants.API_BASE_PATH + 'collected_pages',
             constants.API_BASE_PATH + 'settings',
+            constants.API_BASE_PATH + 'xss-uri',
+            constants.API_BASE_PATH + 'user-path',
+            constants.API_BASE_PATH + '',
+
         ];
 
         // Check if the path being accessed required authentication
@@ -486,13 +484,13 @@ async function set_up_api_server(app) {
         }
     }
     app.post(constants.API_BASE_PATH + 'record_injection', validate({ body: RecordCorrelatedRequestSchema }), async (req, res) => {
-		const correlation_key_record = await Settings.findOne({
+		const user = await Users.findOne({
 			where: {
-				key: constants.CORRELATION_API_SECRET_SETTINGS_KEY
+				injectionCorrelationAPIKey: req.body.owner_correlation_key
 			}
 		});
 
-        if (!safeCompare(correlation_key_record.value, req.body.owner_correlation_key)) {
+        if (! user) {
             res.status(200).json({
                 "success": false,
                 "error": "Invalid authentication provided. Please provide a proper correlation API key.",
@@ -535,53 +533,18 @@ async function set_up_api_server(app) {
 		Returns current settings values for the UI
     */
     app.get(constants.API_BASE_PATH + 'settings', async (req, res) => {
-    	const settings_to_retrieve = [
-    		{
-    			key: constants.CORRELATION_API_SECRET_SETTINGS_KEY,
-    			return_key: 'correlation_api_key',
-    			default: '',
-    			formatter: false,
-    		},
-    		{
-    			key: constants.CHAINLOAD_URI_SETTINGS_KEY,
-    			return_key: 'chainload_uri',
-    			default: '',
-    			formatter: false,
-    		},
-    		{
-    			key: constants.PAGES_TO_COLLECT_SETTINGS_KEY,
-    			return_key: 'pages_to_collect',
-    			default: [],
-    			formatter: ((value) => {
-    				return JSON.parse(value);
-    			}),
-    		},
-            {
-                key: constants.SEND_ALERT_EMAILS_KEY,
-                return_key: 'send_alert_emails',
-                default: true,
-                formatter: ((value) => {
-                    return JSON.parse(value);
-                }),
-            },
-    	];
-
-    	let result = {};
-    	let database_promises = settings_to_retrieve.map(async settings_value_metadata => {
-			const db_record = await Settings.findOne({
-				where: {
-					key: settings_value_metadata.key
-				}
-			});
-
-			const formatter_function = settings_value_metadata.formatter ? settings_value_metadata.formatter : (value) => value;
-			result[settings_value_metadata.return_key] = db_record ? formatter_function(db_record.value) : settings_value_metadata.default;
-    	});
-    	await Promise.all(database_promises);
-
+        let returnObj = {}
+        const user = await Users.findOne({ where: { 'id': req.session.user_id } });
+        if(! user){
+            return res.send("Invalid");
+        }
+        returnObj.correlation_api_key = user.injectionCorrelationAPIKey;
+        returnObj.chainload_uri = user.additionalJS;
+        returnObj.send_alert_emails = user.sendEmailAlerts;
+       
         res.status(200).json({
             'success': true,
-            result
+            returnObj
         }).end();
     });
 
@@ -621,60 +584,25 @@ async function set_up_api_server(app) {
         }
     }
     app.put(constants.API_BASE_PATH + 'settings', validate({ body: UpdateConfigSchema }), async (req, res) => {
-
+        const user = await Users.findOne({ where: { 'id': req.session.user_id } });
+        if(! user){
+            return res.send("Invalid");
+        }
         if(req.body.correlation_api_key === true) {
-            const correlation_api_key = get_secure_random_string(64);
-            await update_settings_value(
-                constants.CORRELATION_API_SECRET_SETTINGS_KEY,
-                correlation_api_key
-            );
+            user.injectionCorrelationAPIKey = req.body.correlation_api_key;
         }
 
         // Intentionally no URL validation incase people want to do
         // data: for inline extra JS.
         if(req.body.chainload_uri) {
-            await update_settings_value(
-                constants.CHAINLOAD_URI_SETTINGS_KEY,
-                req.body.chainload_uri
-            );
+            user.additionalJS = req.body.chainload_uri;
         }
 
         if(req.body.send_alert_emails !== undefined) {
-            await update_settings_value(
-                constants.SEND_ALERT_EMAILS_KEY,
-                req.body.send_alert_emails.toString()
-            );
+            user.sendEmailAlerts = req.body.send_alert_emails;
         }
 
-        // Immediately rotate session secret and revoke all sessions.
-        if(req.body.revoke_all_sessions !== undefined) {
-            const new_session_secret = get_secure_random_string(64);
-            // Update session secret in database
-            const session_secret_setting = await Settings.findOne({
-                where: {
-                    key: constants.session_secret_key
-                }
-            });
-            session_secret_setting.value = new_session_secret;
-            await session_secret_setting.save();
-
-            // We do this by patching the sessions middleware at runtime
-            // to utilize a new HMAC secret so all previous sessions are revoked.
-            const updated_session_settings = {
-                ...sessions_settings_object,
-                ...{
-                    secret: session_secret_setting.value
-                }
-            };
-            sessions_middleware = sessions(updated_session_settings);
-        }
-
-        if(req.body.pages_to_collect) {
-            await update_settings_value(
-                constants.PAGES_TO_COLLECT_SETTINGS_KEY,
-                JSON.stringify(req.body.pages_to_collect)
-            );
-        }
+        await user.save();
 
         res.status(200).json({
             'success': true,

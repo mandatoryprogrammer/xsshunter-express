@@ -7,13 +7,6 @@
             <card type="secondary" header-classes="bg-white pb-5" body-classes="px-lg-5 py-lg-5" class="border-0 mb-0" style="text-align: center">
                 <h3>XSS Hunter<br />
                     <i>Please login to continue.</i></h3>
-                <base-input alternative v-model="password" type="password" placeholder="Password" autofocus v-on:keyup.enter="attempt_login"></base-input>
-                <base-button block simple type="primary" v-on:click="attempt_login">
-                    <i class="fas fa-key"></i> Authenticate
-                </base-button>
-                <base-alert v-if="invalid_password_used" class="mt-4" type="danger">
-                    <i class="fas fa-times"></i> Incorrect password, try again.
-                </base-alert>
             </card>
         </modal>
         <div class="loading-bar" v-if="loading">

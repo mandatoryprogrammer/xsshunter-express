@@ -36,6 +36,8 @@ services:
       # CLIENT ID FOR OAUTH LOGIN
       - CLIENT_ID=your_client_id
       - CLIENT_SECRET=your_client_secret
+      # GENERATE A RANDOM LONG STRING FOR THIS
+      - SESSION_SECRET_KEY=
       # THERE IS NO NEED TO MODIFY BELOW THIS LINE
       # ------------------------------------------
       # FEEL FREE, BUT KNOW WHAT YOU'RE DOING.

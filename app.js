@@ -6,7 +6,6 @@ const path = require('path');
 const asyncfs = require('fs').promises;
 const uuid = require('uuid');
 const database = require('./database.js');
-const Settings = database.Settings;
 const PayloadFireResults = database.PayloadFireResults;
 const savePayload = database.savePayload;
 const Users = database.Users;
@@ -333,28 +332,17 @@ async function get_app_server() {
         }
         console.log(`Got xss fetch for user ${user.email}`);
         
-        const db_promises = [
-            Settings.findOne({
-                where: {
-                    key: constants.PAGES_TO_COLLECT_SETTINGS_KEY,
-                }
-            }),
-            Settings.findOne({
-                where: {
-                    key: constants.CHAINLOAD_URI_SETTINGS_KEY,
-                }
-            }),
-        ];
-        const db_results = await Promise.all(db_promises);
-        const pages_to_collect = (db_results[0] === null) ? [] : JSON.parse(db_results[0].value);
-        const chainload_uri = (db_results[1] === null) ? '' : db_results[1].value;
+        const chainload_uri = user.additionalJS;
+        if (! chainload_uri){
+            chainload_uri = '';
+        }
 
         res.send(XSS_PAYLOAD.replace(
             /\[HOST_URL\]/g,
             `https://${process.env.XSS_HOSTNAME}`
         ).replace(
             '[COLLECT_PAGE_LIST_REPLACE_ME]',
-            JSON.stringify(pages_to_collect)
+            JSON.stringify([])
         ).replace(
             /\[USER_PATH\]/g,
             userPath

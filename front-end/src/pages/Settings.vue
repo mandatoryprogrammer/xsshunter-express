@@ -5,7 +5,7 @@
                 <card class="xss-card-container">
                     <div class="row pl-4 pr-4 p-2" style="display: block;">
                         <div>
-                            <h1><i class="fas fa-cogs"></i> Settings</h1>
+                            <h1><i class="fas fa-cogs"></i>User Settings</h1>
                         </div>
                         <card>
                             <h4 class="card-title">Injection Correlation API Key</h4>
@@ -41,41 +41,7 @@
                             </base-button>
                         </card>
                         <card>
-                            <h4 class="card-title">Pages to Collect on Payload Fire</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">List of relative paths to collect from a site when a payload fires.</h6>
-                            <div class="form-row">
-                                <div class="col">
-                                    <base-input class="mt-1" type="text" placeholder="/robots.txt" v-model="new_page_to_collect" />
-                                </div>
-                                <div class="col">
-                                    <base-button type="primary" v-on:click="add_new_page_to_collect">
-                                        <i class="fas fa-plus"></i> Add New Path to Collect
-                                    </base-button>
-                                </div>
-                            </div>
-                            <p class="card-text">
-                                <base-input >
-                                    <select multiple class="form-control" v-model="selected_page_to_collect">
-                                        <option v-for="page_to_collect in pages_to_collect">{{page_to_collect}}</option>
-                                    </select>
-                                </base-input>
-                            </p>
-                            <base-button type="danger" class="btn-sm mt-0 mb-3" v-on:click="delete_selected_pages_to_collect">
-                                <i class="fas fa-trash-alt"></i> Delete Selected Path(s)
-                            </base-button>
-                            <br />
-                            <base-button type="primary" v-on:click="update_pages_to_collect">
-                                <i class="far fa-save"></i> Update Pages to Collect List
-                            </base-button>
-                        </card>
-                        <card>
                             <h4 class="card-title">Miscellaneous Options</h4>
-                            <base-button type="danger" v-on:click="revoke_all_sessions">
-                                <i class="fas fa-user-times"></i> Revoke All Active Sessions
-                            </base-button>
-                            <h6 class="mt-2 text-muted">Invalidates all active login sessions. This will log you out as well.</h6>
-                            <hr />
-
                             <div v-if="send_alert_emails">
                                 <base-button type="primary" v-on:click="set_email_reporting">
                                     <i class="far fa-bell-slash"></i> Disable Email Reporting
