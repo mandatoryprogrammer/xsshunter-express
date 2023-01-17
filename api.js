@@ -377,7 +377,7 @@ async function set_up_api_server(app) {
             });
             let payload_secrets = [];
             for(let secret of secrets.rows){
-                payload.secrets.push(secret);
+                payload_secrets.push(secret);
             }
             const new_payload = {
                 "url": payload.url,
