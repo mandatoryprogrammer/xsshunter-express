@@ -375,15 +375,27 @@ async function set_up_api_server(app) {
                     payload_id: payload.id
                 }
             });
-            payload.secrets = [];
+            let payload_secrets = [];
             for(let secret of secrets.rows){
                 payload.secrets.push(secret);
             }
-            return_payloads.push(payload);
-            console.log("wtf");
-            console.log(JSON.stringify(payload));
+            const new_payload = {
+                "url": payload.url,
+                "ip_address": payload.ip_address,
+                "referer": payload.referer,
+                "user_agent": payload.user_agent,
+                "cookies": payload.cookies,
+                "title": payload.title,
+                "origin": payload.origin,
+                "screenshot_id": payload.screenshot_id,
+                "was_iframe": payload.was_iframe,
+                "browser_timestamp": payload.browser_timestamp,
+                "createdAt": payload.createdAt,
+                "updatedAt": payload.updatedAt,
+                "secrets": payload_secrets
+            }
+            return_payloads.push(new_payload);
         }
-        console.log("WATT")
         console.log(JSON.stringify(return_payloads));
         res.status(200).json({
             'success': true,
