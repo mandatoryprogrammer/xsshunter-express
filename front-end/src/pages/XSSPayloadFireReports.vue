@@ -136,7 +136,7 @@
                                             </small>
                                         </div>
                                         <div>
-                                            <li v-for="secret in secrets">
+                                            <li v-for="secret in report.secrets">
                                                 Secret type: {{ secret.secret_type }}
                                                 Secret value: {{ secret.secret_value }}
                                             </li>

@@ -3,7 +3,6 @@
         <side-bar>
             <template slot="links">
                 <sidebar-link to="/" name="XSS Payload Fires" icon="fas fa-fire" />
-                <sidebar-link to="/collectedpages" name="Collected Pages" icon="fas fa-file" />
                 <sidebar-link to="/xsspayloads" name="XSS Payloads" icon="fas fa-file-code" />
                 <sidebar-link to="/settings" name="Settings" icon="fas fa-cogs" />
                 <li class="nav-item mt-5">

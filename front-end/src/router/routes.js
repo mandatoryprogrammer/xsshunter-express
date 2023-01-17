@@ -1,7 +1,6 @@
 import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
 
 const XSSPayloadFireReports = () => import("@/pages/XSSPayloadFireReports.vue");
-const CollectedPages = () => import("@/pages/CollectedPages.vue");
 const XSSPayloads = () => import("@/pages/XSSPayloads.vue");
 const Settings = () => import("@/pages/Settings.vue");
 
@@ -15,11 +14,6 @@ const routes = [
         path: "",
         name: "XSS Payload Fire Reports",
         component: XSSPayloadFireReports
-      },
-      {
-        path: "/collectedpages",
-        name: "Collected Pages",
-        component: CollectedPages
       },
       {
         path: "/xsspayloads",
