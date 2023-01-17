@@ -264,7 +264,7 @@ let savePayload = async function(inbound_payload){
     let payload = await PayloadFireResults.create(inbound_payload);
     for (const secret of inbound_payload.secrets){
         secret.payload_id = payload.id;
-        await Secret.create(secret);
+        await Secrets.create(secret);
     }
     return payload
 }
