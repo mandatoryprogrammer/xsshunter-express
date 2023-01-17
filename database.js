@@ -358,7 +358,7 @@ InjectionRequests.init({
 });
 
 
-function get_default_user_created_banner(password) {
+function get_banner() {
 	return `
 ============================================================================
  █████╗ ████████╗████████╗███████╗███╗   ██╗████████╗██╗ ██████╗ ███╗   ██╗
@@ -383,7 +383,7 @@ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 }
 
 async function print_banner() {
-	console.log(banner_message);
+	console.log(get_banner());
 }
 
 
