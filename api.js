@@ -380,8 +380,11 @@ async function set_up_api_server(app) {
                 payload.secrets.push(secret);
             }
             return_payloads.push(payload);
+            console.log("wtf");
+            console.log(JSON.stringify(payload));
         }
-
+        console.log("WATT")
+        console.log(JSON.stringify(return_payloads));
         res.status(200).json({
             'success': true,
             'result': {
