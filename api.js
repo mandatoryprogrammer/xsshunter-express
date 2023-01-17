@@ -169,6 +169,7 @@ async function set_up_api_server(app) {
           const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
           if(created){
             user.path = makeRandomPath(20);
+            user.injectionCorrelationAPIKey = makeRandomPath(20);
             user.save();
           }
           req.session.email = user.email;
