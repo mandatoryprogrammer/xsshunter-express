@@ -370,12 +370,15 @@ async function set_up_api_server(app) {
 
         let return_payloads = [];
         for(let payload of payload_fires.rows){
+            console.log(payload);
             let secrets = await Secrets.findAndCountAll({
                 where: {
                     payload_id: payload.id
                 }
             });
+            console.log(secrets);
             payload.secrets = secrets.rows;
+            console.log(payload);
             return_payloads.push(payload);
         }
 
