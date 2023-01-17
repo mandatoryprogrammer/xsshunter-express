@@ -63,7 +63,7 @@ async function set_up_api_server(app) {
     const updated_session_settings = {
         ...sessions_settings_object,
         ...{
-            secret: session_secret_setting.value
+            secret: session_secret_setting
         }
     };
     sessions_middleware = sessions(updated_session_settings);
