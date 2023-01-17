@@ -332,7 +332,7 @@ async function get_app_server() {
         }
         console.log(`Got xss fetch for user ${user.email}`);
         
-        const chainload_uri = user.additionalJS;
+        let chainload_uri = user.additionalJS;
         if (! chainload_uri){
             chainload_uri = '';
         }
