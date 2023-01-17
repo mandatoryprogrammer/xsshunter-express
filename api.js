@@ -114,7 +114,6 @@ async function set_up_api_server(app) {
             constants.API_BASE_PATH + 'settings',
             constants.API_BASE_PATH + 'xss-uri',
             constants.API_BASE_PATH + 'user-path',
-            constants.API_BASE_PATH + '',
 
         ];
 
