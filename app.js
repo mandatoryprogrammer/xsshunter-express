@@ -257,9 +257,9 @@ async function get_app_server() {
 
         console.log("saved record");
 		// Send out notification via configured notification channel
-		if(process.env.SMTP_EMAIL_NOTIFICATIONS_ENABLED === "true") {
+		if(user.sendEmailAlerts) {
 			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
-			await notification.send_email_notification(payload_fire_data);
+			await notification.send_email_notification(payload_fire_data, user.email);
 		}
 	});
 

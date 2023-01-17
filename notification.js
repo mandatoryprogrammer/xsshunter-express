@@ -7,7 +7,7 @@ const XSS_PAYLOAD_FIRE_EMAIL_TEMPLATE = fs.readFileSync(
 	'utf8'
 );
 
-async function send_email_notification(xss_payload_fire_data) {
+async function send_email_notification(xss_payload_fire_data, email) {
 	const transporter = nodemailer.createTransport({
 		host: process.env.SMTP_HOST,
 		port: parseInt(process.env.SMTP_PORT),
@@ -25,7 +25,7 @@ async function send_email_notification(xss_payload_fire_data) {
 
 	const info = await transporter.sendMail({
 		from: process.env.SMTP_FROM_EMAIL,
-		to: process.env.SMTP_RECEIVER_EMAIL,
+		to: email,
 		subject: `[XSS Hunter Express] XSS Payload Fired On ${xss_payload_fire_data.url}`,
 		text: "Only HTML reports are available, please use an email client which supports this.",
 		html: notification_html_email_body,
