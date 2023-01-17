@@ -48,7 +48,11 @@ Users.init({
     additionalJS: {
         type: sequelize.text,
         allownull: true,
-        unique: true
+    },
+    sendEmailAlerts: {
+        type: sequelize.text,
+        allownull: false,
+        defaultValue: "true",
     }
 
 
