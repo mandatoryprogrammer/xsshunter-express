@@ -544,7 +544,7 @@ async function set_up_api_server(app) {
        
         res.status(200).json({
             'success': true,
-            returnObj
+            'result': returnObj
         }).end();
     });
 
