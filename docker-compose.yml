@@ -48,6 +48,8 @@ services:
       - DATABASE_PASSWORD=xsshunterexpress
       - DATABASE_HOST=postgresdb
       - NODE_ENV=production
+      - USE_CLOUD_STORAGE=true
+      - BUCKET_NAME=YourBucket
     ports:
       - "80:80"
       - "443:443"
