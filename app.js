@@ -218,10 +218,11 @@ async function get_app_server() {
             const bucket = storage.bucket(process.env.BUCKET_NAME);
             //compressing the file using gzip
             const gzip = zlib.createGzip();
+            const gzipTempFileName = multer_temp_image_path + ".gz";
+            const tempFileWriteStream = fs.createWriteStream(gzipTempFileName);
+            input_read_stream.pipe(gzip).pipe(tempFileWriteStream);
             //uploading the gzipped file to GCS
-            console.log("hi");
-            const gzippedStream = input_read_stream.pipe(gzip);
-            await bucket.upload(gzippedStream, {
+            await bucket.upload(gzipTempFileName, {
                 gzip: true,
                 destination: payload_fire_image_filename,
                 metadata: {
@@ -230,6 +231,7 @@ async function get_app_server() {
             });
             console.log(`${fileName} has been uploaded to GCS.`);
             await asyncfs.unlink(multer_temp_image_path);
+            await asyncfs.unlink(gzipTempFileName);
         }else{
             input_read_stream.pipe(gzip).pipe(output_gzip_stream).on('finish', async (error) => {
                 if(error) {
