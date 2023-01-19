@@ -220,7 +220,7 @@ async function get_app_server() {
             const gzip = zlib.createGzip();
             const gzipTempFileName = multer_temp_image_path + ".gz";
             const tempFileWriteStream = fs.createWriteStream(gzipTempFileName);
-            input_read_stream.pipe(gzip).pipe(tempFileWriteStream);
+            await input_read_stream.pipe(gzip).pipe(tempFileWriteStream);
             //uploading the gzipped file to GCS
             await bucket.upload(gzipTempFileName, {
                 gzip: true,
