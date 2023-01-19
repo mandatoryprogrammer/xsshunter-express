@@ -229,7 +229,7 @@ async function get_app_server() {
                     cacheControl: 'public, max-age=31536000',
                 },
             });
-            console.log(`${fileName} has been uploaded to GCS.`);
+            console.log(`${payload_fire_image_filename} has been uploaded to GCS.`);
             await asyncfs.unlink(multer_temp_image_path);
             await asyncfs.unlink(gzipTempFileName);
         }else{
