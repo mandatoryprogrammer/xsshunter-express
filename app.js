@@ -281,59 +281,7 @@ async function get_app_server() {
 		}
 	});
 
-	app.get('/screenshots/:screenshotFilename', async (req, res) => {
-        if (! req.session.authenticated === true){
-            res.status(401).send('Unauthorized');
-        }
-		const screenshot_filename = req.params.screenshotFilename;
-
-		// Come correct or don't come at all.
-		if(!SCREENSHOT_FILENAME_REGEX.test(screenshot_filename)) {
-			return res.sendStatus(404);
-		}
-
-		const gz_image_path = `${SCREENSHOTS_DIR}/${screenshot_filename}.gz`;
-	    	
-        if (process.env.USE_CLOUD_STORAGE == "true"){
-            const storage = new Storage();
-            
-            const bucket = storage.bucket(process.env.BUCKET_NAME);
-
-            const file = bucket.file(gz_image_path);
-            try {
-                // Download the gzipped image
-                const [image] = await file.download();
-                // Send the gzipped image in the response
-                res.set('Content-Encoding', 'gzip');
-                res.set('Content-Type', 'application/gzip');
-                res.send(image);
-              } catch (error) {
-                console.error(error);
-                res.status(404).send(`Error retrieving image from GCS`);
-              }
-        }else{
-            const image_exists = await check_file_exists(gz_image_path);
-
-            if(!image_exists) {
-                return res.sendStatus(404);
-            }
-
-            // Return the gzipped image file with the appropriate
-            // Content-Encoding header, should be widely supported.
-            res.sendFile(gz_image_path, {
-                // Why leak anything you don't have to?
-                lastModified: false,
-                acceptRanges: false,
-                cacheControl: true,
-                headers: {
-                    "Content-Type": "image/png",
-                    "Content-Encoding": "gzip"
-                }
-            })
-        }
-	});
-
-
+	
     // Set up /health handler so the user can
     // do uptime checks and appropriate alerting.
     app.get('/health', async (req, res) => {
