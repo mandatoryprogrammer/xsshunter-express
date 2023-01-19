@@ -210,19 +210,18 @@ async function get_app_server() {
     	const gzip = zlib.createGzip();
     	const output_gzip_stream = fs.createWriteStream(payload_fire_image_filename);
     	const input_read_stream = fs.createReadStream(multer_temp_image_path);
-        console.log("y");
     	// When the "finish" event is called we delete the original
     	// uncompressed image file left behind by multer.
         if (process.env.USE_CLOUD_STORAGE == "true"){
             const storage = new Storage();
             //creating a bucket instance
             const bucket = storage.bucket(process.env.BUCKET_NAME);
-            console.log("z");
             //compressing the file using gzip
             const gzip = zlib.createGzip();
             //uploading the gzipped file to GCS
             console.log("hi");
-            await bucket.upload(input_read_stream.pipe(gzip), {
+            const gzippedStream = input_read_stream.pipe(gzip);
+            await bucket.upload(gzippedStream, {
                 gzip: true,
                 destination: payload_fire_image_filename,
                 metadata: {
