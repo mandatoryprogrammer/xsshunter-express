@@ -206,7 +206,7 @@ async function set_up_api_server(app) {
                 const [image] = await file.download();
                 // Send the gzipped image in the response
                 res.set('Content-Encoding', 'gzip');
-                res.set('Content-Type', 'application/gzip');
+                res.set('Content-Type', 'image/png');
                 res.send(image);
               } catch (error) {
                 console.error(error);
