@@ -13,7 +13,10 @@ const sequelize = new Sequelize(
 		host: process.env.DATABASE_HOST,
 		dialect: 'postgres',
 		benchmark: true,
-		logging: true
+		logging: false,
+		dialectOptions: {
+			socketPath: process.env.DATABASE_HOST,
+		},
 	},
 );
 
@@ -357,36 +360,6 @@ InjectionRequests.init({
 	]
 });
 
-
-function get_banner() {
-	return `
-============================================================================
- █████╗ ████████╗████████╗███████╗███╗   ██╗████████╗██╗ ██████╗ ███╗   ██╗
-██╔══██╗╚══██╔══╝╚══██╔══╝██╔════╝████╗  ██║╚══██╔══╝██║██╔═══██╗████╗  ██║
-███████║   ██║      ██║   █████╗  ██╔██╗ ██║   ██║   ██║██║   ██║██╔██╗ ██║
-██╔══██║   ██║      ██║   ██╔══╝  ██║╚██╗██║   ██║   ██║██║   ██║██║╚██╗██║
-██║  ██║   ██║      ██║   ███████╗██║ ╚████║   ██║   ██║╚██████╔╝██║ ╚████║
-╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-                                                                           
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-	Hi. I love you.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- █████╗ ████████╗████████╗███████╗███╗   ██╗████████╗██╗ ██████╗ ███╗   ██╗
-██╔══██╗╚══██╔══╝╚══██╔══╝██╔════╝████╗  ██║╚══██╔══╝██║██╔═══██╗████╗  ██║
-███████║   ██║      ██║   █████╗  ██╔██╗ ██║   ██║   ██║██║   ██║██╔██╗ ██║
-██╔══██║   ██║      ██║   ██╔══╝  ██║╚██╗██║   ██║   ██║██║   ██║██║╚██╗██║
-██║  ██║   ██║      ██║   ███████╗██║ ╚████║   ██║   ██║╚██████╔╝██║ ╚████║
-╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-                                                                           
-============================================================================
-`;
-}
-
-async function print_banner() {
-	console.log(get_banner());
-}
-
-
 async function database_init() {
 	const force = false;
 
@@ -397,11 +370,6 @@ async function database_init() {
 		Secrets.sync({ force: force }),
 		CollectedPages.sync({ force: force }),
 		InjectionRequests.sync({ force: force }),
-	]);
-
-	await Promise.all([
-		// Set up admin panel user if not already set up.
-		print_banner(),
 	]);
 }
 

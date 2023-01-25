@@ -51,6 +51,8 @@ const SCREENSHOT_FILENAME_REGEX = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]
 
 async function get_app_server() {
 	const app = express();
+	app.set('trust proxy', true);
+	app.disable('x-powered-by');
 
 	// I have a question for Express:
 	// https://youtu.be/ZtjFsQBuJWw?t=4

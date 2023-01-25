@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const uuid = require('uuid');
 const asyncfs = require('fs').promises;
-const sessions = require('@nvanexan/node-client-sessions');
+const sessions = require('@truffledustin/node-client-sessions');
 const favicon = require('serve-favicon');
 const database = require('./database.js');
 const Users = database.Users;
@@ -35,7 +35,7 @@ var sessions_settings_object = {
     activeDuration: 1000 * 60 * 5, // Extend for five minutes if actively used
     cookie: {
         httpOnly: true,
-        secure: true
+        secureProxy: true
     }
 }
 
