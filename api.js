@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { Storage } = require('@google-cloud/storage');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -24,6 +25,8 @@ const {OAuth2Client} = require('google-auth-library');
 
 const SCREENSHOTS_DIR = path.resolve(process.env.SCREENSHOTS_DIR);
 const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
+const SCREENSHOT_FILENAME_REGEX = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\.png$/i);
+
 
 var sessions_middleware = false;
 var sessions_settings_object = {
@@ -114,6 +117,7 @@ async function set_up_api_server(app) {
             constants.API_BASE_PATH + 'settings',
             constants.API_BASE_PATH + 'xss-uri',
             constants.API_BASE_PATH + 'user-path',
+            '/screenshots/'
 
         ];
 
@@ -179,6 +183,55 @@ async function set_up_api_server(app) {
         console.log(`Error Occured: ${error}`);
         res.status(500).send("Error Occured");
       }
+    });
+
+    app.get('/screenshots/:screenshotFilename', async (req, res) => {
+        const screenshot_filename = req.params.screenshotFilename;
+
+        // Come correct or don't come at all.
+        if(!SCREENSHOT_FILENAME_REGEX.test(screenshot_filename)) {
+            return res.sendStatus(404);
+        }
+
+        const gz_image_path = `${SCREENSHOTS_DIR}/${screenshot_filename}.gz`;
+
+        if (process.env.USE_CLOUD_STORAGE == "true"){
+            const storage = new Storage();
+
+            const bucket = storage.bucket(process.env.BUCKET_NAME);
+
+            const file = bucket.file(gz_image_path);
+            try {
+                // Download the gzipped image
+                const [image] = await file.download();
+                // Send the gzipped image in the response
+                res.set('Content-Encoding', 'gzip');
+                res.set('Content-Type', 'image/png');
+                res.send(image);
+              } catch (error) {
+                console.error(error);
+                res.status(404).send(`Error retrieving image from GCS`);
+              }
+        }else{
+            const image_exists = await check_file_exists(gz_image_path);
+
+            if(!image_exists) {
+                return res.sendStatus(404);
+            }
+
+            // Return the gzipped image file with the appropriate
+            // Content-Encoding header, should be widely supported.
+            res.sendFile(gz_image_path, {
+                // Why leak anything you don't have to?
+                lastModified: false,
+                acceptRanges: false,
+                cacheControl: true,
+                headers: {
+                    "Content-Type": "image/png",
+                    "Content-Encoding": "gzip"
+                }
+            })
+        }
     });
 
 

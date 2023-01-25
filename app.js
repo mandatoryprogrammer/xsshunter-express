@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+const { Storage } = require('@google-cloud/storage');
 const express = require('express');
 const fs = require('fs');
 const zlib = require('zlib');
@@ -209,20 +210,45 @@ async function get_app_server() {
     	const gzip = zlib.createGzip();
     	const output_gzip_stream = fs.createWriteStream(payload_fire_image_filename);
     	const input_read_stream = fs.createReadStream(multer_temp_image_path);
-
     	// When the "finish" event is called we delete the original
     	// uncompressed image file left behind by multer.
-    	input_read_stream.pipe(gzip).pipe(output_gzip_stream).on('finish', async (error) => {
-    		if(error) {
-    			console.error(`An error occurred while writing the XSS payload screenshot (gzipped) to disk:`);
-    			console.error(error);
-    		}
+        if (process.env.USE_CLOUD_STORAGE == "true"){
+            const storage = new Storage();
+            //creating a bucket instance
+            const bucket = storage.bucket(process.env.BUCKET_NAME);
+            //compressing the file using gzip
+            const gzip = zlib.createGzip();
+            const gzipTempFileName = multer_temp_image_path + ".gz";
+            const tempFileWriteStream = fs.createWriteStream(gzipTempFileName);
+            input_read_stream.pipe(gzip).pipe(tempFileWriteStream);
+            // Wait for the file to be finished writing
+            await new Promise((resolve, reject) => {
+                tempFileWriteStream.on('finish', resolve);
+                tempFileWriteStream.on('error', reject);
+            });
+            //uploading the gzipped file to GCS
+            await bucket.upload(gzipTempFileName, {
+                gzip: true,
+                destination: payload_fire_image_filename,
+                metadata: {
+                    cacheControl: 'public, max-age=31536000',
+                },
+            });
+            console.log(`${payload_fire_image_filename} has been uploaded to GCS.`);
+            await asyncfs.unlink(multer_temp_image_path);
+            await asyncfs.unlink(gzipTempFileName);
+        }else{
+            input_read_stream.pipe(gzip).pipe(output_gzip_stream).on('finish', async (error) => {
+                if(error) {
+                    console.error(`An error occurred while writing the XSS payload screenshot (gzipped) to disk:`);
+                    console.error(error);
+                }
 
-    		console.log(`Gzip stream complete, deleting multer temp file: ${multer_temp_image_path}`);
+                console.log(`Gzip stream complete, deleting multer temp file: ${multer_temp_image_path}`);
 
-    		await asyncfs.unlink(multer_temp_image_path);
-    	});
-
+                await asyncfs.unlink(multer_temp_image_path);
+            });
+        }
     	const payload_fire_id = uuid.v4();
 		var payload_fire_data = {
 			id: payload_fire_id,
@@ -263,37 +289,7 @@ async function get_app_server() {
 		}
 	});
 
-	app.get('/screenshots/:screenshotFilename', async (req, res) => {
-		const screenshot_filename = req.params.screenshotFilename;
-
-		// Come correct or don't come at all.
-		if(!SCREENSHOT_FILENAME_REGEX.test(screenshot_filename)) {
-			return res.sendStatus(404);
-		}
-
-		const gz_image_path = `${SCREENSHOTS_DIR}/${screenshot_filename}.gz`;
-		
-		const image_exists = await check_file_exists(gz_image_path);
-
-		if(!image_exists) {
-			return res.sendStatus(404);
-		}
-
-		// Return the gzipped image file with the appropriate
-		// Content-Encoding header, should be widely supported.
-		res.sendFile(gz_image_path, {
-			// Why leak anything you don't have to?
-			lastModified: false,
-			acceptRanges: false,
-			cacheControl: true,
-			headers: {
-				"Content-Type": "image/png",
-				"Content-Encoding": "gzip"
-			}
-		})
-	});
-
-
+	
     // Set up /health handler so the user can
     // do uptime checks and appropriate alerting.
     app.get('/health', async (req, res) => {
