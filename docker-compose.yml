@@ -8,7 +8,7 @@ services:
       # the IP of the server running this service. 
       # SSL will automatically be set up and
       #  renewed with LetsEncrypt.
-      - HOSTNAME=your.host.name
+      - HOSTNAME=localhost
       # THis hostname is where your JS is served out of
       - XSS_HOSTNAME=your.xss.domain
       # [REQUIRED] Email for SSL
@@ -47,7 +47,7 @@ services:
       - DATABASE_USER=xsshunterexpress
       - DATABASE_PASSWORD=xsshunterexpress
       - DATABASE_HOST=postgresdb
-      - NODE_ENV=production
+      - NODE_ENV=development
       - USE_CLOUD_STORAGE=true
       - BUCKET_NAME=YourBucket
     ports:

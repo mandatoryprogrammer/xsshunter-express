@@ -35,7 +35,7 @@ var sessions_settings_object = {
     activeDuration: 1000 * 60 * 5, // Extend for five minutes if actively used
     cookie: {
         httpOnly: true,
-        secureProxy: true
+        secureProxy: process.env.NODE_ENV == 'production'
     }
 }
 
