@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: ""
 labels: enhancement, needs triage
-assignees: trufflesecurity/product-eng
+assignees: trufflesecurity/skunkworks
 ---
 
 ### Community Note
