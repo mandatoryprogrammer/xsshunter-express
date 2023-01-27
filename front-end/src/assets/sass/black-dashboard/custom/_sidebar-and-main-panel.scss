@@ -182,21 +182,10 @@
             }
 
             &.active > a:not([data-toggle="collapse"]){
-                background: transparent;
+                background: rgba(0, 0, 0, 0.15);
 
                 i,p{
                   color: white;
-                }
-
-                &:before{
-                  content: " ";
-                  position: absolute;
-                  height: 6px;
-                  width: 6px;
-                  top: 22px;
-                  left: -4px;
-                  background: $white;
-                  border-radius: 50%;
                 }
             }
 

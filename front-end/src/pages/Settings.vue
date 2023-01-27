@@ -5,7 +5,7 @@
                 <card class="xss-card-container">
                     <div class="row pl-4 pr-4 p-2" style="display: block;">
                         <div>
-                            <h1><i class="fas fa-cogs"></i>User Settings</h1>
+                            <h1><i class="fas fa-cogs"></i>&nbsp;User Settings</h1>
                         </div>
                         <card>
                             <h4 class="card-title">Injection Correlation API Key</h4>
