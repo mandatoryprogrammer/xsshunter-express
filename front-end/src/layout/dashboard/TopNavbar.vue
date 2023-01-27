@@ -13,18 +13,8 @@
             <span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a class="navbar-brand" href="#pablo">{{routeName}}</a>
+        <a class="navbar-brand" href="#pablo">XSS HUNTER | <small>{{routeName}}</small></a>
       </div>
-      <button class="navbar-toggler" type="button"
-              @click="toggleMenu"
-              data-toggle="collapse"
-              data-target="#navigation"
-              aria-controls="navigation-index"
-              aria-label="Toggle navigation">
-        <span class="navbar-toggler-bar navbar-kebab"></span>
-        <span class="navbar-toggler-bar navbar-kebab"></span>
-        <span class="navbar-toggler-bar navbar-kebab"></span>
-      </button>
 
       <collapse-transition>
         <div class="collapse navbar-collapse show" v-show="showMenu">

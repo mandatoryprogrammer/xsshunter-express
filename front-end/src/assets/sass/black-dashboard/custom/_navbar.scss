@@ -100,6 +100,8 @@
   }
 
   .navbar-brand {
+    font-family: $font-family-primary;
+    display: none;
     position: fixed;
     padding-top: .3125rem;
     padding-bottom: .3125rem;
@@ -107,7 +109,18 @@
     margin-left: 17px;
     margin-top: 3px;
     text-transform: uppercase;
-    font-size: $font-paragraph;
+    font-size: $font-size-xl;
+    font-weight: bold;
+
+    small {
+      font-size: $font-paragraph;
+    }
+  }
+
+  @media screen and (max-width: 991px){
+    .navbar-brand {
+      display: block;
+    }
   }
 
   .navbar-toggle button:focus, .navbar-toggler{

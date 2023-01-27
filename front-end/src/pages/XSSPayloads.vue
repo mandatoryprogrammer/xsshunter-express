@@ -13,7 +13,9 @@
                             <p class="card-text">
                                 <base-input type="text" v-bind:value="payload.func()" placeholder="..."></base-input>
                             </p>
-                            <base-button type="primary" v-clipboard:copy="payload.func()"><i class="far fa-copy"></i> Copy Payload</base-button>
+                            <base-button type="primary" v-clipboard:copy="payload.func()">
+                            <span style="display: inline-block; margin-right: 6px;"><i class="far fa-copy"></i></span>
+                            Copy Payload</base-button>
                         </card>
                     </div>
                 </card>

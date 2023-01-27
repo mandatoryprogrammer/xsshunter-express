@@ -17,6 +17,12 @@
                     <p>Github Repo</p>
                   </a>
                 </li>
+                <li class="nav-item mt-5">
+                    <a target="_blank" href="https://trufflesecurity.com/" class="nav-link">
+                        <i class="fas fab fa-power-off"></i>
+                        <p>Powered by TruffleSec</p>
+                    </a>
+                </li>
             </template>
         </side-bar>
         <div class="main-panel">
