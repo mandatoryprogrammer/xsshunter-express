@@ -18,9 +18,9 @@
                   </a>
                 </li>
                 <li class="nav-item mt-5">
-                    <a target="_blank" href="https://github.com/mandatoryprogrammer/xsshunter-express" class="nav-link">
+                    <a target="_blank" href="https://trufflesecurity.com/" class="nav-link">
                         <i class="fas fab fa-power-off"></i>
-                        <p>Powered by Truffle Security</p>
+                        <p>Powered by TruffleSec</p>
                     </a>
                 </li>
             </template>

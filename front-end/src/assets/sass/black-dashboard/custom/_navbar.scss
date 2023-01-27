@@ -100,6 +100,7 @@
   }
 
   .navbar-brand {
+    display: none;
     position: fixed;
     padding-top: .3125rem;
     padding-bottom: .3125rem;
@@ -112,6 +113,12 @@
 
     small {
       font-size: $font-paragraph;
+    }
+  }
+
+  @media screen and (max-width: 991px){
+    .navbar-brand {
+      display: block;
     }
   }
 
