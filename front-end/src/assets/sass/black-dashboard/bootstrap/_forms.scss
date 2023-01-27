@@ -5,7 +5,6 @@
 //
 
 .form-control {
-  background: #000000ab;
   display: block;
   width: 100%;
   height: $input-height;
@@ -13,7 +12,7 @@
   font-size: $font-size-base;
   line-height: $input-line-height;
   color: $input-color;
-  background-color: rgba($input-bg, 0.5);
+  background-color: $input-bg;
   background-clip: padding-box;
   border: $input-border-width solid $input-border-color;
 
