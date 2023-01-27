@@ -5,7 +5,7 @@
                 <card class="xss-card-container">
                     <div class="row pl-4 pr-4 p-2" style="display: block;">
                         <div>
-                            <h1><i class="fas fa-fire"></i> XSS Payload Fire Reports ({{format_with_commas(report_count)}} Total)</h1>
+                            <h1><i class="fas fa-fire"></i> XSS Payload Fire Reports ({{format_with_commas(report_count)}} total)</h1>
                             <hr />
                             <div v-for="report in payload_fire_reports">
                                 <card class="mb-0">
@@ -480,7 +480,6 @@ export default {
 }
 
 .xss-card-container {
-    max-width: 1000px;
     width: 100%;
 }
 
