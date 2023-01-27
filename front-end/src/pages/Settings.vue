@@ -9,7 +9,7 @@
                         </div>
                         <card>
                             <h4 class="card-title">Injection Correlation API Key</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">Use with an XSS Hunter compatible client to track which injection caused a payload fire.</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Use with an XSS Hunter-compatible client to track which injection caused a payload fire.</h6>
                             <p class="card-text">
                                 <base-input v-bind:value="correlation_api_key" type="text" placeholder="..." ></base-input>
                             </p>
@@ -24,7 +24,7 @@
                         </card>
                         <card>
                             <h4 class="card-title">XSSHunter Path</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">This unique path ties injection payloads back to you. You can set it to something shorter (it defaults to 20 chars).</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Unique path that ties injection payloads back to you. Can be set to something shorter. (defaults to 20 chars)</h6>
                             <p class="card-text">
                                 <base-input v-model:value="user_path" type="text" placeholder="..."></base-input>
                             </p>
@@ -52,7 +52,7 @@
                                     Disable Email Reporting
                                 </base-button>
                                 <h6 class="mt-2 text-muted">
-                                    Disable the sending of XSS payload fire reports to the specified email address.
+                                    Disable sending XSS payload fire reports to the specified email address.
                                 </h6>
                             </div>
                             <div v-if="!send_alert_emails">
@@ -61,7 +61,7 @@
                                     Enable Email Reporting
                                 </base-button>
                                 <h6 class="mt-2 text-muted">
-                                    Enable the sending of XSS payload fire reports to the specified email address.
+                                    Enable sending XSS payload fire reports to the specified email address.
                                 </h6>
                             </div>
                             
