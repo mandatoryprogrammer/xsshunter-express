@@ -7,7 +7,8 @@
                         <div>
                             <h1><i class="fas fa-fire"></i> XSS Payload Fire Reports ({{format_with_commas(report_count)}} total)</h1>
                             <hr />
-                            <div v-for="report in payload_fire_reports">
+                            <div v-if="report_count === 0" style="color: white;">No reports!</div>
+                            <div v-else v-for="report in payload_fire_reports">
                                 <card class="mb-0">
                                     <div class="screenshot-image-container mb-2">
                                         <a v-bind:href="base_api_path + '/screenshots/' + report.screenshot_id + '.png'" target="_blank">
@@ -183,7 +184,7 @@
                                 <hr />
                             </div>
                             <!-- Pagination -->
-                            <div class="text-center pagination-div">
+                            <div v-if="report_count !== 0" class="text-center pagination-div">
                                 <base-pagination v-bind:page-count="total_pages" v-model="page"></base-pagination>
                             </div>
                         </div>
@@ -780,7 +781,7 @@ a.badge-dark:focus {
 }
 
 hr {
-    background-color: #344675;
+    background-color: #ae8c57;
 }
 
 .corner-loader {}
