@@ -5,7 +5,7 @@
         <!-- Login modal if not authenticated -->
         <modal class="show d-block" body-classes="p-0" modal-classes="modal-dialog-centered modal-sm ]" v-if="show_login_prompt">
             <card type="secondary" header-classes="bg-white pb-5" body-classes="px-lg-5 py-lg-5" class="border-0 mb-0" style="text-align: center">
-                <h3>XSS Hunter<br />
+                <h3 style="margin-bottom: 0; color: #2e5543;">XSS Hunter<br />
                     <i>Please login to continue.</i></h3>
             </card>
         </modal>
