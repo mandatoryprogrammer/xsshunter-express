@@ -1,10 +1,8 @@
-FROM node:12
+FROM node:16
 
-# Set up directory for the server
 RUN mkdir /app/
 WORKDIR /app/
 
-# Copy front-end over
 COPY front-end/ /app/front-end/
 WORKDIR /app/front-end/
 RUN npm install
@@ -27,9 +25,7 @@ COPY docker-entrypoint.sh /app/
 RUN chmod +x /app/docker-entrypoint.sh
 COPY templates /app/templates
 
-# Expose both HTTP and HTTPS ports
-EXPOSE 80
-EXPOSE 443
+USER 1111
 
 # Start the server
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
