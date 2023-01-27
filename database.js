@@ -15,7 +15,7 @@ const sequelize = new Sequelize(
 		benchmark: true,
 		logging: false,
 		dialectOptions: {
-			socketPath: process.env.DATABASE_HOST,
+			socketPath: process.env.NODE_ENV == 'production' ? process.env.DATABASE_HOST : null,
 		},
 	},
 );
