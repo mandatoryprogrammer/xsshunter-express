@@ -46,7 +46,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.url">{{report.url}}</code>
+                                            <pre v-if="report.url">{{report.url}}</pre>
                                             <pre v-else><i>None</i></pre>
                                         </div>
                                         <hr />
@@ -59,7 +59,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.ip_address">{{report.ip_address}}</code>
+                                            <pre v-if="report.ip_address">{{report.ip_address}}</pre>
                                             <pre v-else><i>None</i></pre>
                                         </div>
                                         <hr />
@@ -72,7 +72,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.referer">{{report.referer}}</code>
+                                            <pre v-if="report.referer">{{report.referer}}</pre>
                                             <pre v-else><i>None</i></pre>
                                         </div>
                                         <hr />
@@ -85,7 +85,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.user_agent">{{report.user_agent}}</code>
+                                            <pre v-if="report.user_agent">{{report.user_agent}}</pre>
                                             <pre v-else><i>None</i></pre>
                                         </div>
                                         <hr />
@@ -98,7 +98,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.cookies">{{report.cookies}}</code>
+                                            <pre v-if="report.cookies">{{report.cookies}}</pre>
                                             <pre v-else><i>None</i></pre>
                                         </div>
                                         <hr />
@@ -111,7 +111,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.title">{{report.title}}</code>
+                                            <pre v-if="report.title">{{report.title}}</pre>
                                             <pre v-else><i>None</i></pre>
                                         </div>
                                         <hr />
@@ -124,7 +124,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.origin">{{report.origin}}</code>
+                                            <pre v-if="report.origin">{{report.origin}}</pre>
                                             <pre v-else><code>None</code></pre>
                                         </div>
                                         <hr />
@@ -137,12 +137,12 @@
                                             </small>
                                         </div>
                                         <div v-if="report.secrets">
-                                            <pre v-for="secret in report.secrets">
-                                                Secret type: {{ secret.secret_type }}
-                                                Secret value: {{ secret.secret_value }}
-                                            </pre>
+                                            <pre v-for="secret in report.secrets">Secret type: {{ secret.secret_type }}
+Secret value: {{ secret.secret_value }}</pre>
                                         </div>
-                                        <pre v-else><code>No secrets detected</code></pre>
+                                        <div>
+                                            <pre v-else>No secrets detected</pre>
+                                        </div>
                                         <hr />
                                     </div>
                                     <div>
@@ -153,7 +153,7 @@
                                             </small>
                                         </div>
                                         <div>
-                                            <code v-if="report.CORS">Access-Control-Allow-Origin: {{report.CORS}}</code>
+                                            <pre v-if="report.CORS">Access-Control-Allow-Origin: {{report.CORS}}</pre>
                                             <pre v-else><i>No CORS headers detected</i></pre>
                                         </div>
                                         <hr />
@@ -179,7 +179,7 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <code v-if="report.browser_timestamp">{{ new Date(parseInt(report.browser_timestamp)) | moment("dddd, MMMM Do YYYY, h:mm:ss a")}} (<i>{{report.browser_timestamp}}</i>)</code>
+                                            <pre v-if="report.browser_timestamp">{{ new Date(parseInt(report.browser_timestamp)) | moment("dddd, MMMM Do YYYY, h:mm:ss a")}} (<i>{{report.browser_timestamp}}</i>)</pre>
                                             <pre v-else><i>None</i></pre>
                                         </div>
                                         <hr />
@@ -192,16 +192,9 @@
                                             </small>
                                         </div>
                                         <div class="m-2 mt-4">
-                                            <p>
-                                                Fired in iFrame?: <code>{{report.was_iframe}}</code>
-                                            </p>
-                                            <p>
-                                                Vulnerability enumerated <code>{{ report.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}</code>
-                                            </p>
-                                            <p>
-                                                Report ID: <code>{{report.id}}</code>
-                                            </p>
-                                        </div>
+                                            <pre>Fired in iFrame?: {{report.was_iframe}}
+Vulnerability enumerated {{ report.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}
+Report ID: {{report.id}}</pre>
                                         <hr />
                                     </div>
                                     <base-button simple block type="primary" class="mt-4" v-on:click="collapse_report(report.id)" v-if="is_report_id_expanded(report.id)">
@@ -414,12 +407,8 @@ export default {
 }
 
 pre {
-    background: #5BB381;
-    background-image: -webkit-gradient(linear, right top, left bottom, from(#5BB381), color-stop(#AE8C57), to(#38645A));
-    background-image: linear-gradient(to bottom left, #5BB381, #AE8C57, #38645A);
-    background-size: 210% 210%;
-    background-position: 100% 0;
-    color: #fff
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #38645a;
 }
 
 .pagination .page-item.disabled>.page-link {
@@ -496,7 +485,7 @@ pre {
 
 
 .report-section-label {
-    background: #ff8d72;
+    background: #5BB381;
     font-size: 18px;
     display: inline;
 }
@@ -511,7 +500,7 @@ pre {
 }
 
 .report-section-description {
-    color: #d3d3d7 !important;
+    color: #5bb381 !important;
     font-style: italic;
     display: inline;
     float: right;
