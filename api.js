@@ -389,7 +389,7 @@ async function set_up_api_server(app) {
         if ( process.env.USE_CLOUD_STORAGE == "true"){ 
             const storage = new Storage();
             await Promise.all(screenshots_to_delete.map(screenshot_path => {
-                return await storage.bucket(process.env.BUCKET_NAME).file(fileName).delete();
+                return storage.bucket(process.env.BUCKET_NAME).file(fileName).delete();
             }));
         }else{
             await Promise.all(screenshots_to_delete.map(screenshot_path => {
