@@ -2,6 +2,7 @@ FROM node:16
 
 RUN mkdir /app/
 WORKDIR /app/
+RUN npm install pm2 -g
 
 COPY front-end/ /app/front-end/
 WORKDIR /app/front-end/
@@ -25,7 +26,7 @@ COPY docker-entrypoint.sh /app/
 RUN chmod +x /app/docker-entrypoint.sh
 COPY templates /app/templates
 
-USER 1111
+USER node
 
 # Start the server
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
