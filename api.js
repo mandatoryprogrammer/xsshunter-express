@@ -468,6 +468,7 @@ async function set_up_api_server(app) {
                 "CORS": payload.CORS,
                 "gitExposed": payload.gitExposed,
                 "createdAt": payload.createdAt,
+                "id": payload.id,
                 "updatedAt": payload.updatedAt,
                 "secrets": payload_secrets
             }
