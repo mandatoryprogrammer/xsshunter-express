@@ -136,7 +136,7 @@
                                                 TruffleHog-lite, used to capture any secrets harvested from the HTML and Javascript.
                                             </small>
                                         </div>
-                                        <div v-if="report.secrets">
+                                        <div class="m-2 mt-4" v-if="report.secrets">
                                             <pre v-for="secret in report.secrets">Secret type: {{ secret.secret_type }}
 Secret value: {{ secret.secret_value }}</pre>
                                         </div>
@@ -152,7 +152,7 @@ Secret value: {{ secret.secret_value }}</pre>
                                                 What is the CORS policy for the website the XSS rendered on?
                                             </small>
                                         </div>
-                                        <div>
+                                        <div class="m-2 mt-4">
                                             <pre v-if="report.CORS">Access-Control-Allow-Origin: {{report.CORS}}</pre>
                                             <pre v-else><i>No CORS headers detected</i></pre>
                                         </div>
@@ -165,7 +165,7 @@ Secret value: {{ secret.secret_value }}</pre>
                                                 Was the source code exposed via /.git ? (Shows contents of /.git/config)
                                             </small>
                                         </div>
-                                        <div>
+                                        <div class="m-2 mt-4">
                                             <pre v-if="report.gitExposed">{{report.gitExposed}}</pre>
                                             <pre v-else><i>No .git directory detected</i></pre>
                                         </div>
