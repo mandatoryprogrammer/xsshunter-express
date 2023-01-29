@@ -1,5 +1,5 @@
 *.env
-node_modules/*
+node_modules
 *.bak
 postgres-db-data/*
 dev.sh
@@ -12,3 +12,4 @@ ssldata/*
 config.env
 payload-fire-images/*.gz
 payload-fire-images/*.png
+deploy.sh

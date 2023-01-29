@@ -179,7 +179,10 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 code {
-  color: $pink;
+  color: #5bb381;
+  font-weight: bold;
+  background: #ffffffcc;
+  padding: 2px 6px;
 }
 
 @media screen and (max-width: 991px){

@@ -5,29 +5,32 @@
                 <card class="xss-card-container">
                     <div class="row pl-4 pr-4 p-2" style="display: block;">
                         <div>
-                            <h1><i class="fas fa-cogs"></i>User Settings</h1>
+                            <h1><i class="fas fa-cogs"></i>&nbsp;User Settings</h1>
                         </div>
                         <card>
                             <h4 class="card-title">Injection Correlation API Key</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">Use with an XSS Hunter compatible client to track which injection caused a payload fire.</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Use with an XSS Hunter-compatible client to track which injection caused a payload fire.</h6>
                             <p class="card-text">
                                 <base-input v-bind:value="correlation_api_key" type="text" placeholder="..." ></base-input>
                             </p>
                             <base-button class="mr-1" type="primary" v-clipboard:copy="correlation_api_key" >
-                                <i class="far fa-copy"></i> Copy API Key
+                                <span style="display: inline-block; margin-right: 6px;"><i class="far fa-copy"></i></span>
+                                Copy API Key
                             </base-button>
                             <base-button type="danger" v-on:click="generate_new_correlation_api_key">
-                                <i class="fas fa-sync-alt"></i> Rotate API Key
+                                <span style="display: inline-block; margin-right: 6px;"><i class="fas fa-sync-alt"></i></span>
+                                Rotate API Key
                             </base-button>
                         </card>
                         <card>
                             <h4 class="card-title">XSSHunter Path</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">This unique path ties injection payloads back to you. You can set it to something shorter (it defaults to 20 chars).</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Unique path that ties injection payloads back to you. Can be set to something shorter. (defaults to 20 chars)</h6>
                             <p class="card-text">
                                 <base-input v-model:value="user_path" type="text" placeholder="..."></base-input>
                             </p>
                             <base-button type="primary" v-on:click="update_path">
-                                <i class="fas fa-lock"></i> Update Path
+                                <span style="display: inline-block; margin-right: 6px;"><i class="fas fa-lock"></i></span>
+                                Update Path
                             </base-button>
                         </card>
                         <card>
@@ -37,25 +40,28 @@
                                 <base-input v-model="chainload_uri" type="text" placeholder="https://example.com/remote.js"></base-input>
                             </p>
                             <base-button type="primary" v-on:click="update_chainload_uri">
-                                <i class="far fa-save"></i> Save JavaScript URL
+                                <span style="display: inline-block; margin-right: 6px;"><i class="far fa-save"></i></span>
+                                Save JavaScript URL
                             </base-button>
                         </card>
                         <card>
                             <h4 class="card-title">Miscellaneous Options</h4>
                             <div v-if="send_alert_emails">
                                 <base-button type="primary" v-on:click="set_email_reporting">
-                                    <i class="far fa-bell-slash"></i> Disable Email Reporting
+                                    <span style="display: inline-block; margin-right: 6px;"><i class="far fa-bell-slash"></i></span>
+                                    Disable Email Reporting
                                 </base-button>
                                 <h6 class="mt-2 text-muted">
-                                    Disable the sending of XSS payload fire reports to the specified email address.
+                                    Disable sending XSS payload fire reports to the specified email address.
                                 </h6>
                             </div>
                             <div v-if="!send_alert_emails">
                                 <base-button type="primary" v-on:click="set_email_reporting">
-                                    <i class="far fa-bell"></i> Enable Email Reporting
+                                    <span style="display: inline-block; margin-right: 6px;"><i class="far fa-bell"></i></span>
+                                    Enable Email Reporting
                                 </base-button>
                                 <h6 class="mt-2 text-muted">
-                                    Enable the sending of XSS payload fire reports to the specified email address.
+                                    Enable sending XSS payload fire reports to the specified email address.
                                 </h6>
                             </div>
                             

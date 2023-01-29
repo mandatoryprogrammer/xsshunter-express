@@ -12,12 +12,12 @@ const routes = [
     children: [
       {
         path: "",
-        name: "XSS Payload Fire Reports",
+        name: "Payload Fire Reports",
         component: XSSPayloadFireReports
       },
       {
         path: "/xsspayloads",
-        name: "XSS Payloads",
+        name: "Payloads",
         component: XSSPayloads
       },
       {

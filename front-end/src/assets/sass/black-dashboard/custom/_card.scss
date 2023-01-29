@@ -4,11 +4,12 @@
     position: relative;
     width: 100%;
     margin-bottom: 30px;
-    box-shadow: $box-shadow;
-
+    background: #e7e0d8;
+    background: transparent;
+    color: black;
 
     label{
-      color: rgba($white, 0.6);
+      color: rgba(black, 0.6);
     }
 
     .card-title {
@@ -17,6 +18,24 @@
 
     .card-body{
       padding: 15px;
+
+      .card {    
+        border: 1px solid #ae8c57;
+        color: black;
+        background: #f4efe9;
+
+        .card-title {
+          color: black;
+          font-weight: 500;
+          font-size: 1.1rem;
+        }
+
+        .card-subtitle {
+          margin-top: 0.4rem;
+          color: #5a5a5a !important;
+          font-size: 0.8rem;
+        }
+      }
 
       &.table-full-width{
         padding-left: 0;

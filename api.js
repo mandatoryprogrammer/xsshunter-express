@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const uuid = require('uuid');
 const asyncfs = require('fs').promises;
-const sessions = require('@nvanexan/node-client-sessions');
+const sessions = require('@truffledustin/node-client-sessions');
 const favicon = require('serve-favicon');
 const database = require('./database.js');
 const Users = database.Users;
@@ -24,7 +24,7 @@ const {OAuth2Client} = require('google-auth-library');
 
 
 const SCREENSHOTS_DIR = path.resolve(process.env.SCREENSHOTS_DIR);
-const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, `https://${process.env.HOSTNAME}/oauth-login`);
+const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.NODE_ENV == 'production' ? `https://${process.env.HOSTNAME}/oauth-login` : `http://${process.env.HOSTNAME}/oauth-login`);
 const SCREENSHOT_FILENAME_REGEX = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}\.png$/i);
 
 
@@ -35,7 +35,7 @@ var sessions_settings_object = {
     activeDuration: 1000 * 60 * 5, // Extend for five minutes if actively used
     cookie: {
         httpOnly: true,
-        secure: true
+        secureProxy: process.env.NODE_ENV == 'production'
     }
 }
 
@@ -153,7 +153,7 @@ async function set_up_api_server(app) {
 
     app.get('/login', (req, res) => {
       const authUrl = client.generateAuthUrl({
-        redirect_uri: `https://${process.env.HOSTNAME}/oauth-login`,
+        redirect_uri: process.env.NODE_ENV == 'production' ? `https://${process.env.HOSTNAME}/oauth-login` : `http://${process.env.HOSTNAME}/oauth-login`,
         access_type: 'offline',
         scope: ['email', 'profile'],
         prompt: 'select_account'

@@ -18,9 +18,8 @@
 }
 .sidebar,
 .off-canvas-sidebar{
-    @include linear-gradient($primary-states, $primary);
-    height: calc(100vh - 90px);
-    width: 230px;
+    height: 100vh;
+    width: 280px;
     position: fixed;
     top: 0;
     left: 0;
@@ -28,10 +27,8 @@
     background-size: cover;
     background-position: center center;
     display: block;
-    box-shadow: 0px 0px 45px 0px rgba(0,0,0,0.6);
-    margin-top: 80px;
-    margin-left: 20px;
-    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.4);
+    background: #2e5543;
 
     .sidebar-wrapper{
         width: $full-width;
@@ -182,21 +179,10 @@
             }
 
             &.active > a:not([data-toggle="collapse"]){
-                background: transparent;
+                background: rgba(0, 0, 0, 0.15);
 
                 i,p{
                   color: white;
-                }
-
-                &:before{
-                  content: " ";
-                  position: absolute;
-                  height: 6px;
-                  width: 6px;
-                  top: 22px;
-                  left: -4px;
-                  background: $white;
-                  border-radius: 50%;
                 }
             }
 
@@ -250,6 +236,7 @@
             display: block;
             height: auto;
             white-space: nowrap;
+            font-size: $font-size-base;
             @extend .animation-transition-general;
         }
 
@@ -266,6 +253,7 @@
     }
 
     .logo{
+        font-size: $font-size-xl;
         position: relative;
         padding: $padding-base-vertical $padding-base-horizontal;
         z-index: 4;
@@ -302,6 +290,7 @@
         }
 
         a.logo-normal{
+            font-weight: bold;
             display: block;
             opacity: 1;
             @include transform-translate-x(0px);
@@ -460,7 +449,7 @@
     width: $full-width;
     min-height: 100vh;
     border-top: 2px solid $primary;
-    background: linear-gradient($background-black, $background-states-black);
+    background: none;
 
     @include transitions (0.50s, cubic-bezier(0.685, 0.0473, 0.346, 1));
 
@@ -481,7 +470,7 @@
     }
 
     > .content {
-        padding: 78px 30px 30px 280px;
+        padding: 30px 30px 30px 320px;
         min-height: calc(100vh - 70px);
     }
 
@@ -682,6 +671,7 @@
     width: 100%;
       .content {
       padding-left: 30px;
+      padding-top: 60px;
     }
   }
 

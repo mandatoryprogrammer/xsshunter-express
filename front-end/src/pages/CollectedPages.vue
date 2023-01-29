@@ -317,7 +317,6 @@ export default {
 }
 
 .xss-card-container {
-    max-width: 1000px;
     width: 100%;
 }
 

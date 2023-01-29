@@ -99,28 +99,28 @@ $colors: map-merge((
 $default-color-opacity:      rgba(182, 182, 182, .6) !default;
 $orange-color:               #f96332 !default;
 
-$default:       #344675 !default;
-$primary:       #e14eca !default;
+$default:       #89553d !default;
+$primary:       #2e5543 !default;
 $secondary:     #f4f5f7 !default;
-$success:       #00f2c3 !default;
+$success:       #5bb381 !default;
 $info:          #1d8cf8 !default;
 $warning:       #ff8d72 !default;
-$danger:        #fd5d93 !default;
+$danger:        #c15750 !default;
 $black:         #222a42 !default;
 $vue:           #42b883 !default;
 
 // gradient
-$default-states:       #263148 !default;
-$primary-states:       #ba54f5 !default;
+$default-states:       #5b3524 !default;
+$primary-states:       #111513 !default;
 $success-states:       #0098f0 !default;
 $info-states:          #3358f4 !default;
 $warning-states:       #ff6491 !default;
-$danger-states:        #ec250d !default;
+$danger-states:        #662019 !default;
 $black-states:         #1d253b !default;
 $vue-states:           #389466 !default;
 
-$background-black:           #1e1e2f !default;
-$background-states-black:    #1e1e24 !default;
+$background-black:           #323232 !default;
+$background-states-black:    #1c1a1a !default;
 
 // opacity
 $default-opacity:      rgba(182, 182, 182, .6) !default;
@@ -379,7 +379,7 @@ $general-transition-time:     300ms             !default;
 
 
 // Fonts
-
+$font-family-primary:         'Poppins', sans-serif !default;
 $font-family-base:            'Poppins', sans-serif !default;
 $font-family-alt:             'Poppins', sans-serif !default;
 
@@ -899,7 +899,7 @@ $card-border-color:                 rgba($black, .05);
 $card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width});
 $card-cap-bg:                       $gray-100 !default;
 $card-bg:                           $white !default;
-$card-black-background:             #27293d !default;
+$card-black-background:             #463727 !default;
 $card-img-overlay-padding:          1.25rem !default;
 
 //$card-group-margin:                 ($grid-gutter-width / 2);

@@ -2,15 +2,23 @@
 @include form-control-placeholder(#6c757c, 1);
 
 .form-control{
-  border-color: lighten($black,5%);
   border-radius: $border-radius-lg;
-  font-size: $font-size-sm;
+  font-size: $font-size-base;
   @include transition-input-focus-color();
 
+  font-family: monospace;
+  border-color: #dfd3b0;
+  color: #5a5a5a;
+  background-color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:focus{
-    border-color: $primary;
-    background-color: $input-bg;
+    border-color: #ae8c57;
+    background-color: rgba(white, 0.8);
+    color: #5a5a5a;
+
     @include box-shadow(none);
 
     & + .input-group-append .input-group-text,
