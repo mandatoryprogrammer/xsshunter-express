@@ -163,6 +163,14 @@ async function get_app_server() {
     			"type": "string",
     			"default": []
     		},
+    		"CORS": {
+    			"type": "string",
+    			"default": []
+    		},
+    		"gitExposed": {
+    			"type": "string",
+    			"default": []
+    		},
             "path": {
                 "type": "string",
                 "default": ""
@@ -269,6 +277,13 @@ async function get_app_server() {
             correlated_request: 'No correlated request found for this injection.',
 		}
 
+        if (req.body.CORS != "false"){
+           payload_fire_data.CORS = req.body.CORS; 
+        }
+        if (req.body.gitExposed != "false"){
+            payload_fire_data.gitExposed = req.body.gitExposed.substring(0,5000);
+        }
+
         // Check for correlated request
         const correlated_request_rec = await InjectionRequests.findOne({
             where: {
@@ -285,7 +300,7 @@ async function get_app_server() {
 
         console.log("saved record");
 		// Send out notification via configured notification channel
-		if(user.sendEmailAlerts) {
+		if(user.sendEmailAlerts && process.env.SMTP_EMAIL_NOTIFICATIONS_ENABLED=="true") {
 			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
 			await notification.send_email_notification(payload_fire_data, user.email);
 		}
@@ -334,10 +349,17 @@ async function get_app_server() {
         if (! chainload_uri){
             chainload_uri = '';
         }
+        let xssURI = ""
+        if(process.env.XSS_HOSTNAME.startsWith("localhost")){
+            xssURI = `http://${process.env.XSS_HOSTNAME}`
+        }else{
+
+            xssURI = `https://${process.env.XSS_HOSTNAME}`
+        }
 
         res.send(XSS_PAYLOAD.replace(
             /\[HOST_URL\]/g,
-            `https://${process.env.XSS_HOSTNAME}`
+            xssURI
         ).replace(
             '[COLLECT_PAGE_LIST_REPLACE_ME]',
             JSON.stringify([])

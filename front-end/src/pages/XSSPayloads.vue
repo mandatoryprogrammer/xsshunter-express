@@ -6,6 +6,7 @@
                     <div class="row pl-4 pr-4 p-2" style="display: block;">
                         <div>
                             <h1><i class="fas fa-file-code"></i> XSS Payloads</h1>
+                            <h3>For a shorter URL, change your path on the settings page</h3>
                         </div>
                         <card v-for="payload in payloads">
                             <h4 class="card-title" v-html="payload.title"></h4>

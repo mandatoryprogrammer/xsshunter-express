@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const uuid = require('uuid');
 const asyncfs = require('fs').promises;
+const fs = require('fs');
 const sessions = require('@truffledustin/node-client-sessions');
 const favicon = require('serve-favicon');
 const database = require('./database.js');
@@ -52,6 +53,15 @@ function makeRandomPath(length) {
 function session_wrapper_function(req, res, next) {
     return sessions_middleware(req, res, next);
 }
+
+async function check_file_exists(file_path) {
+	return asyncfs.access(file_path, fs.constants.F_OK).then(() => {
+		return true;
+	}).catch(() => {
+		return false;
+	});
+}
+
 
 async function set_up_api_server(app) {
     // Check for existing session secret value
@@ -443,6 +453,8 @@ async function set_up_api_server(app) {
                 "screenshot_id": payload.screenshot_id,
                 "was_iframe": payload.was_iframe,
                 "browser_timestamp": payload.browser_timestamp,
+                "CORS": payload.CORS,
+                "gitExposed": payload.gitExposed,
                 "createdAt": payload.createdAt,
                 "updatedAt": payload.updatedAt,
                 "secrets": payload_secrets

@@ -206,6 +206,18 @@ PayloadFireResults.init({
 		allowNull: false,
 		unique: false
 	},
+    // git directory exposed
+	gitExposed: {
+		type: Sequelize.TEXT,
+		allowNull: true,
+		unique: false
+	},
+    // cors data
+	CORS: {
+		type: Sequelize.TEXT,
+		allowNull: true,
+		unique: false
+	},
 }, {
 	sequelize,
 	modelName: 'payload_fire_results',
@@ -213,6 +225,11 @@ PayloadFireResults.init({
 		{
 			unique: false,
 			fields: ['url'],
+			method: 'BTREE',
+		},
+		{
+			unique: false,
+			fields: ['CORS'],
 			method: 'BTREE',
 		},
 		{
