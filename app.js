@@ -161,6 +161,14 @@ async function get_app_server() {
     			"type": "string",
     			"default": []
     		},
+    		"CORS": {
+    			"type": "string",
+    			"default": []
+    		},
+    		"gitExposed": {
+    			"type": "string",
+    			"default": []
+    		},
             "path": {
                 "type": "string",
                 "default": ""
@@ -266,6 +274,13 @@ async function get_app_server() {
 			browser_timestamp: parseInt(req.body['browser-time']),
             correlated_request: 'No correlated request found for this injection.',
 		}
+
+        if (req.body.CORS != "false"){
+           payload_fire_data.CORS = req.body.CORS; 
+        }
+        if (req.body.gitExposed != "false"){
+            payload_fire_data.gitExposed = req.body.gitExposed.substring(0,5000);
+        }
 
         // Check for correlated request
         const correlated_request_rec = await InjectionRequests.findOne({

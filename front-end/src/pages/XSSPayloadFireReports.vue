@@ -132,14 +132,41 @@
                                         <div>
                                             <p class="report-section-label mr-2">Secrets</p>
                                             <small slot="helperText" class="form-text text-muted report-section-description">
-                                                Any secrets harvested from the HTML and Javascript.
+                                                TruffleHog-lite, used to capture any secrets harvested from the HTML and Javascript.
                                             </small>
                                         </div>
-                                        <div>
+                                        <div v-if="report.secrets">
                                             <li v-for="secret in report.secrets">
                                                 Secret type: {{ secret.secret_type }}
                                                 Secret value: {{ secret.secret_value }}
                                             </li>
+                                        </div>
+                                        <pre v-else><i>No secrets detected</i></pre>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <p class="report-section-label mr-2">CORS</p>
+                                            <small slot="helperText" class="form-text text-muted report-section-description">
+                                                What is the CORS policy for the website the XSS rendered on?
+                                            </small>
+                                        </div>
+                                        <div>
+                                            <code v-if="report.CORS">Access-Control-Allow-Origin: {{report.CORS}}</code>
+                                            <pre v-else><i>No CORS headers detected</i></pre>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <p class="report-section-label mr-2">CORS</p>
+                                            <small slot="helperText" class="form-text text-muted report-section-description">
+                                                Was the source code exposed via /.git ? (Shows contents of /.git/config)
+                                            </small>
+                                        </div>
+                                        <div>
+                                            <code v-if="report.gitExposed">{{report.gitExposed}}</code>
+                                            <pre v-else><i>No .git directory detected</i></pre>
                                         </div>
                                         <hr />
                                     </div>

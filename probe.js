@@ -321,12 +321,12 @@ function hook_load_if_not_ready() {
         try{
             probe_return_data['CORS'] = check_cors();
         } catch (e) {
-            probe_return_data['CORS'] = false;
+            probe_return_data['CORS'] = "false";
         }
         try{
             probe_return_data['gitExposed'] = check_git();
         } catch (e) {
-            probe_return_data['gitExposed'] = false;
+            probe_return_data['gitExposed'] = "false";
         }
         probe_return_data['secrets'] = JSON.stringify(probe_return_data['secrets']);
         html2canvas(document.body).then(function(canvas) {
