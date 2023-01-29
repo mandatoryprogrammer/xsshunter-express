@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="m-2 mt-4">
                                             <code v-if="report.origin">{{report.origin}}</code>
-                                            <pre v-else><i>None</i></pre>
+                                            <pre v-else><code>None</code></pre>
                                         </div>
                                         <hr />
                                     </div>
@@ -137,12 +137,12 @@
                                             </small>
                                         </div>
                                         <div v-if="report.secrets">
-                                            <li v-for="secret in report.secrets">
+                                            <pre v-for="secret in report.secrets">
                                                 Secret type: {{ secret.secret_type }}
                                                 Secret value: {{ secret.secret_value }}
-                                            </li>
+                                            </pre>
                                         </div>
-                                        <pre v-else><i>No secrets detected</i></pre>
+                                        <pre v-else><code>No secrets detected</code></pre>
                                         <hr />
                                     </div>
                                     <div>
@@ -160,13 +160,13 @@
                                     </div>
                                     <div>
                                         <div>
-                                            <p class="report-section-label mr-2">CORS</p>
+                                            <p class="report-section-label mr-2">Leaked Source Code</p>
                                             <small slot="helperText" class="form-text text-muted report-section-description">
                                                 Was the source code exposed via /.git ? (Shows contents of /.git/config)
                                             </small>
                                         </div>
                                         <div>
-                                            <code v-if="report.gitExposed">{{report.gitExposed}}</code>
+                                            <pre v-if="report.gitExposed">{{report.gitExposed}}</pre>
                                             <pre v-else><i>No .git directory detected</i></pre>
                                         </div>
                                         <hr />
@@ -413,6 +413,15 @@ export default {
     color: #fff
 }
 
+pre {
+    background: #5BB381;
+    background-image: -webkit-gradient(linear, right top, left bottom, from(#5BB381), color-stop(#AE8C57), to(#38645A));
+    background-image: linear-gradient(to bottom left, #5BB381, #AE8C57, #38645A);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    color: #fff
+}
+
 .pagination .page-item.disabled>.page-link {
     opacity: .5
 }
@@ -487,6 +496,7 @@ export default {
 
 
 .report-section-label {
+    background: #ff8d72;
     font-size: 18px;
     display: inline;
 }

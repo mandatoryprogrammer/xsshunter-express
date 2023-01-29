@@ -300,7 +300,7 @@ async function get_app_server() {
 
         console.log("saved record");
 		// Send out notification via configured notification channel
-		if(user.sendEmailAlerts) {
+		if(user.sendEmailAlerts && process.env.SMTP_EMAIL_NOTIFICATIONS_ENABLED=="true") {
 			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
 			await notification.send_email_notification(payload_fire_data, user.email);
 		}
@@ -349,10 +349,17 @@ async function get_app_server() {
         if (! chainload_uri){
             chainload_uri = '';
         }
+        let xssURI = ""
+        if(process.env.XSS_HOSTNAME.startsWith("localhost")){
+            xssURI = `http://${process.env.XSS_HOSTNAME}`
+        }else{
+
+            xssURI = `https://${process.env.XSS_HOSTNAME}`
+        }
 
         res.send(XSS_PAYLOAD.replace(
             /\[HOST_URL\]/g,
-            `https://${process.env.XSS_HOSTNAME}`
+            xssURI
         ).replace(
             '[COLLECT_PAGE_LIST_REPLACE_ME]',
             JSON.stringify([])

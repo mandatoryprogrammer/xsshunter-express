@@ -311,7 +311,7 @@ probe_return_data['title'] = document.title;
 
 probe_return_data['was_iframe'] = !(window.top === window)
 
-function hook_load_if_not_ready() {
+async function hook_load_if_not_ready() {
     try {
         try {
             probe_return_data['secrets'] = look_for_secrets(never_null( document.documentElement.outerHTML ));
@@ -319,12 +319,14 @@ function hook_load_if_not_ready() {
             probe_return_data['secrets'] = [];
         }
         try{
-            probe_return_data['CORS'] = check_cors();
+            const corsResults = await check_cors();
+            probe_return_data['CORS'] = corsResults;
         } catch (e) {
             probe_return_data['CORS'] = "false";
         }
         try{
-            probe_return_data['gitExposed'] = check_git();
+            const gitResults = await check_git();
+            probe_return_data['gitExposed'] = gitResults;
         } catch (e) {
             probe_return_data['gitExposed'] = "false";
         }
