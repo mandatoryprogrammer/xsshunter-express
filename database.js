@@ -6,9 +6,9 @@ const get_hashed_password = require('./utils.js').get_hashed_password;
 const constants = require('./constants.js');
 
 const sequelize = new Sequelize(
-	process.env.DATABASE_NAME,
-	process.env.DATABASE_USER,
-	process.env.DATABASE_PASSWORD,
+	process.env.POSTGRES_DB,
+	process.env.POSTGRES_USER,
+	process.env.POSTGRES_PASSWORD,
 	{
 		host: process.env.DATABASE_HOST,
 		dialect: 'postgres',
