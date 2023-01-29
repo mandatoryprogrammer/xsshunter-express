@@ -378,12 +378,20 @@ async function set_up_api_server(app) {
     		},
     		attributes: ['id', 'screenshot_id']
     	});
+        const fileName = `${SCREENSHOTS_DIR}/${payload.screenshot_id}.png.gz`;
     	const screenshots_to_delete = screenshot_id_records.map(payload => {
-    		return `${SCREENSHOTS_DIR}/${payload.screenshot_id}.png.gz`;
+    		return fileName;
     	});
-    	await Promise.all(screenshots_to_delete.map(screenshot_path => {
-    		return asyncfs.unlink(screenshot_path);
-    	}));
+        if ( process.env.USE_CLOUD_STORAGE == "true"){ 
+            const storage = new Storage();
+            await Promise.all(screenshots_to_delete.map(screenshot_path => {
+                return await storage.bucket(process.env.BUCKET_NAME).file(fileName).delete();
+            }));
+        }else{
+            await Promise.all(screenshots_to_delete.map(screenshot_path => {
+                return asyncfs.unlink(screenshot_path);
+            }));
+        }
     	const payload_fires = await PayloadFireResults.destroy({
     		where: {
     			id: {
