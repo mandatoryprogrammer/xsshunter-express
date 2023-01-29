@@ -263,6 +263,10 @@ async function set_up_api_server(app) {
     */
     app.get(constants.API_BASE_PATH + 'xss-uri', async (req, res) => {
         const user = await Users.findOne({ where: { 'id': req.session.user_id } });
+        if (user === null) {
+            req.session.destroy();
+            res.redirect(302, '/').end();
+        }
         const uri = process.env.XSS_HOSTNAME + "/" + user.path;
         res.status(200).json({
             "success": true,
@@ -395,21 +399,21 @@ async function set_up_api_server(app) {
         type: 'object',
         properties: {
             page: {
-                type: 'string',
+                type: "Integer",
                 required: false,
-                default: '0',
-                pattern: '[0-9]+',
+                minimum: 1,
+                default: 1,
             },
             limit: {
-                type: 'string',
+                type: "Integer",
                 required: false,
-                default: '10',
-                pattern: '[0-9]+',
+                minimum: 1,
+                default: 10,
             },
         }
     }
     app.get(constants.API_BASE_PATH + 'payloadfires', validate({ query: ListPayloadFiresSchema }), async (req, res) => {
-    	const page = (parseInt(req.query.page) - 1);
+        const page = (parseInt(req.query.page) - 1);
     	const limit = parseInt(req.query.limit);
     	const offset = (page * limit);
     	const payload_fires = await PayloadFireResults.findAndCountAll({
@@ -449,7 +453,6 @@ async function set_up_api_server(app) {
             }
             return_payloads.push(new_payload);
         }
-        console.log(JSON.stringify(return_payloads));
         res.status(200).json({
             'success': true,
             'result': {
