@@ -239,12 +239,12 @@ async function get_app_server() {
             //uploading the gzipped file to GCS
             await bucket.upload(gzipTempFileName, {
                 gzip: true,
-                destination: payload_fire_image_filename,
+                destination: `${payload_fire_image_id}.png.gz`,
                 metadata: {
                     cacheControl: 'public, max-age=31536000',
                 },
             });
-            console.log(`${payload_fire_image_filename} has been uploaded to GCS.`);
+            console.log(`${payload_fire_image_id}.png.gz has been uploaded to GCS.`);
             await asyncfs.unlink(multer_temp_image_path);
             await asyncfs.unlink(gzipTempFileName);
         }else{

@@ -146,6 +146,17 @@ async function set_up_api_server(app) {
 
     	// If the user is authenticated, let them pass
     	if(req.session.authenticated === true) {
+            // const user = await Users.findOne({ where: { 'id': req.session.user_id } });
+            // if (user == null) {
+            //     req.session.destroy();
+            //     res.redirect(302, '/').json({
+            //         "success": false,
+            //         "error": "You must be authenticated to use this endpoint.",
+            //         "code": "NOT_AUTHENTICATED"
+            //     }).end();
+            //     return
+            // }
+
     		next();
     		return;
     	}
@@ -201,7 +212,7 @@ async function set_up_api_server(app) {
             return res.sendStatus(404);
         }
 
-        const gz_image_path = `${SCREENSHOTS_DIR}/${screenshot_filename}.gz`;
+        const gz_image_path = `${screenshot_filename}.gz`;
 
         if (process.env.USE_CLOUD_STORAGE == "true"){
             const storage = new Storage();
@@ -271,10 +282,6 @@ async function set_up_api_server(app) {
     */
     app.get(constants.API_BASE_PATH + 'xss-uri', async (req, res) => {
         const user = await Users.findOne({ where: { 'id': req.session.user_id } });
-        if (user === null) {
-            req.session.destroy();
-            res.redirect(302, '/').end();
-        }
         const uri = process.env.XSS_HOSTNAME + "/" + user.path;
         res.status(200).json({
             "success": true,
@@ -366,7 +373,8 @@ async function set_up_api_server(app) {
         }
     }
     app.delete(constants.API_BASE_PATH + 'payloadfires', validate({ body: DeletePayloadFiresSchema }), async (req, res) => {
-    	const ids_to_delete = req.body.ids;
+        console.log("Deleting payload fires: " + req.body.ids)
+        const ids_to_delete = req.body.ids;
 
     	// Pull the corresponding screenshot_ids from the DB so
     	// we can delete all the payload fire images as well as
@@ -380,14 +388,14 @@ async function set_up_api_server(app) {
     		},
     		attributes: ['id', 'screenshot_id']
     	});
-        const fileName = `${SCREENSHOTS_DIR}/${payload.screenshot_id}.png.gz`;
     	const screenshots_to_delete = screenshot_id_records.map(payload => {
+            const fileName = `${payload.screenshot_id}.png.gz`;
     		return fileName;
     	});
         if ( process.env.USE_CLOUD_STORAGE == "true"){ 
             const storage = new Storage();
             await Promise.all(screenshots_to_delete.map(screenshot_path => {
-                return storage.bucket(process.env.BUCKET_NAME).file(fileName).delete();
+                return storage.bucket(process.env.BUCKET_NAME).file(screenshot_path).delete();
             }));
         }else{
             await Promise.all(screenshots_to_delete.map(screenshot_path => {
