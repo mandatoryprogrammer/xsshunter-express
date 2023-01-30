@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
 echo "Starting server..."
-node server.js
+if [ "$NODE_ENV" = "development" ]; then
+    node server.js
+else
+    pm2-runtime server.js
+fi
