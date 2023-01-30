@@ -7,6 +7,7 @@
             <card type="secondary" header-classes="bg-white pb-5" body-classes="px-lg-5 py-lg-5" class="border-0 mb-0" style="text-align: center">
                 <h3 style="margin-bottom: 0; color: #2e5543;">XSS Hunter<br />
                     <i>Please login to continue.</i></h3>
+                    <base-button simple type="primary" class="mt-3 ml-1 mr-1" v-on:click="googleLogin()">Google Login</base-button>
             </card>
         </modal>
         <div class="loading-bar" v-if="loading">
@@ -67,6 +68,9 @@ export default {
             let root = document.getElementsByTagName('html')[0];
             root.classList.toggle('nav-open');
         },
+        googleLogin(){
+            window.location = "/login";
+        }
     },
     async mounted() {
         this.loading = true;
@@ -76,12 +80,9 @@ export default {
 
         this.is_authed = await this.is_authenticated();
 
-        if (! this.is_authed){
-            window.location = "/login";
-        }
-
         this.loading = false;
     }
+
 };
 
 function get_random_number_in_range(min, max) {  

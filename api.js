@@ -190,7 +190,7 @@ async function set_up_api_server(app) {
           const email = googleUserProfile.data.email
           const [user, created] = await Users.findOrCreate({ where: { 'email': email } });
           if(created){
-            user.path = makeRandomPath(20);
+            user.path = makeRandomPath(10);
             user.injectionCorrelationAPIKey = makeRandomPath(20);
             user.save();
           }

@@ -9,7 +9,7 @@
                         </div>
                         <card>
                             <h4 class="card-title">XSSHunter Path</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">Unique path linked to your account that ties injection payloads back to you. Shorter is better. WARNING: changing this will make existing payloads not linked to your account. (defaults to 20 chars)</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Unique path linked to your account that ties injection payloads back to you. Shorter is better. WARNING: changing this will make existing payloads not linked to your account. (defaults to 10 chars)</h6>
                             <p class="card-text">
                                 <base-input v-model:value="user_path" type="text" placeholder="..."></base-input>
                             </p>
