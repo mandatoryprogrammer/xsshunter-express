@@ -8,21 +8,6 @@
                             <h1><i class="fas fa-cogs"></i>&nbsp;User Settings</h1>
                         </div>
                         <card>
-                            <h4 class="card-title">Injection Correlation API Key</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">Use with an XSS Hunter-compatible client to track which injection caused a payload fire.</h6>
-                            <p class="card-text">
-                                <base-input v-bind:value="correlation_api_key" type="text" placeholder="..." ></base-input>
-                            </p>
-                            <base-button class="mr-1" type="primary" v-clipboard:copy="correlation_api_key" >
-                                <span style="display: inline-block; margin-right: 6px;"><i class="far fa-copy"></i></span>
-                                Copy API Key
-                            </base-button>
-                            <base-button type="danger" v-on:click="generate_new_correlation_api_key">
-                                <span style="display: inline-block; margin-right: 6px;"><i class="fas fa-sync-alt"></i></span>
-                                Rotate API Key
-                            </base-button>
-                        </card>
-                        <card>
                             <h4 class="card-title">XSSHunter Path</h4>
                             <h6 class="card-subtitle mb-2 text-muted">Unique path linked to your account that ties injection payloads back to you. Shorter is better. WARNING: changing this will make existing payloads not linked to your account. (defaults to 20 chars)</h6>
                             <p class="card-text">
