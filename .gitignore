@@ -5,7 +5,6 @@ postgres-db-data/*
 dev.sh
 .DS_Store
 front-end/run.sh
-front-end/dist/*
 .greenlockrc
 greenlock.d/*
 ssldata/*
