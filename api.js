@@ -697,6 +697,8 @@ async function set_up_api_server(app) {
         // data: for inline extra JS.
         if(req.body.chainload_uri) {
             user.additionalJS = req.body.chainload_uri;
+        }else if (req.body.chainload_uri === ""){
+            user.additionalJS = null;
         }
 
         if(req.body.send_alert_emails !== undefined) {
