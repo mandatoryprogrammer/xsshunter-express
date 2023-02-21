@@ -17,6 +17,10 @@ To set up XSS Hunter Express, modify the [`docker-compose.yaml`](https://github.
 The following are some YAML fields (in [`docker-compose.yaml`](https://github.com/mandatoryprogrammer/xsshunter-express/blob/main/docker-compose.yml)) you'll need to modify before starting the service:
 
 * `HOSTNAME`: Set this field to your hostname you want to use for your payloads and to access the web admin panel. Often this is as short as possible (e.g. `xss.ht`) so the payload can be fit into various fields for testing. This hostname should be mapped to the IP address of your instance (via a DNS `A` record).
+
+The following are needed if you want SSL support:
+
+* `SSL_ENABLED`: Leave enabled to receive email notifications (you must set a contact email address as well).
 * `SSL_CONTACT_EMAIL`: In order to automatically set up and renew TLS/SSL certificates via [Let's Encrypt](https://letsencrypt.org/) you'll need to provide an email address.
 
 The following are needed if you want email notifications:

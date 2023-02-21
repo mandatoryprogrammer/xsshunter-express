@@ -6,10 +6,13 @@ services:
     environment:
       # [REQUIRED] The hostname/domain pointed to 
       # the IP of the server running this service. 
-      # SSL will automatically be set up and
-      #  renewed with LetsEncrypt.
       - HOSTNAME=your.host.name
-      # [REQUIRED] Email for SSL
+      # Whether or not to enable SSL
+      # If set, SSL will automatically be set up and
+      # renewed with LetsEncrypt.
+      - SSL_ENABLED=true
+      # Email for SSL
+      # Required if SSL is enabled.
       - SSL_CONTACT_EMAIL=YourEmail@gmail.com
       # Maximum XSS callback payload size
       # This includes the webpage screenshot, DOM HTML,
