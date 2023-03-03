@@ -30,7 +30,7 @@ var sessions_settings_object = {
     activeDuration: 1000 * 60 * 5, // Extend for five minutes if actively used
     cookie: {
         httpOnly: true,
-        secure: true
+        secure: process.env.GREENLOCK_SSL_ENABLED === "true",
     }
 }
 function session_wrapper_function(req, res, next) {

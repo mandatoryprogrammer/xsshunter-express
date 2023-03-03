@@ -11,6 +11,7 @@ services:
       - HOSTNAME=your.host.name
       # [REQUIRED] Email for SSL
       - SSL_CONTACT_EMAIL=YourEmail@gmail.com
+      - GREENLOCK_GREENLOCK_SSL_ENABLED=true
       # Maximum XSS callback payload size
       # This includes the webpage screenshot, DOM HTML,
       # page text, and other metadata. Note that if the

