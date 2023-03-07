@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const mustache = require('mustache');
 const fs = require('fs');
+const axios = require('axios');
 
 const XSS_PAYLOAD_FIRE_EMAIL_TEMPLATE = fs.readFileSync(
 	'./templates/xss_email_template.htm',
@@ -33,5 +34,26 @@ async function send_email_notification(xss_payload_fire_data) {
 
 	console.log("Message sent: %s", info.messageId);
 }
+async function send_slack_notification(xss_payload_fire_data) {
+	var slack_message = {
+		"channel": process.env.SLACK_CHANNEL,
+		"username": process.env.SLACK_USERNAME,
+		"icon_emoji": `:${process.env.SLACK_EMOJI}:`,
+		"blocks": [
+			{
+				"type": "section",
+				"text": {
+					"type": "plain_text",
+					"text": `XSS Payload Fired On ${xss_payload_fire_data.url}`
+				}
+			},
+		]
+	};
 
+	await axios.post(process.env.SLACK_WEBHOOK, JSON.stringify(slack_message));
+
+	console.log("Message sent to slack");
+}
+
+module.exports.send_slack_notification = send_slack_notification;
 module.exports.send_email_notification = send_email_notification;
