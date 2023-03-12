@@ -12,6 +12,7 @@ services:
       # [REQUIRED] Email for SSL
       - SSL_CONTACT_EMAIL=YourEmail@gmail.com
       - GREENLOCK_SSL_ENABLED=true
+      - SELF_SSL=false
       # Maximum XSS callback payload size
       # This includes the webpage screenshot, DOM HTML,
       # page text, and other metadata. Note that if the
