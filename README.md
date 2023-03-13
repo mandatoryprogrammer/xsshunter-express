@@ -18,6 +18,7 @@ The following are some YAML fields (in [`docker-compose.yaml`](https://github.co
 
 * `HOSTNAME`: Set this field to your hostname you want to use for your payloads and to access the web admin panel. Often this is as short as possible (e.g. `xss.ht`) so the payload can be fit into various fields for testing. This hostname should be mapped to the IP address of your instance (via a DNS `A` record).
 * `GREENLOCK_SSL_ENABLED`: Set this field to true for default SSL setup threw greenlock. Set false if you know what don't want it
+* `SELF_SSL`: You should know what you're doing with this if you set it for true. Sets the cookie to proxy mode making them secure but it needs to be behind a SSL Cert
 * `SSL_CONTACT_EMAIL`: In order to automatically set up and renew TLS/SSL certificates via [Let's Encrypt](https://letsencrypt.org/) you'll need to provide an email address.
 
 The following are needed if you want email notifications:
