@@ -4,8 +4,8 @@ services:
   xsshunterexpress:
     build: .
     environment:
-      # [REQUIRED] The hostname/domain pointed to 
-      # the IP of the server running this service. 
+      # [REQUIRED] The hostname/domain pointed to
+      # the IP of the server running this service.
       # SSL will automatically be set up and
       #  renewed with LetsEncrypt.
       - HOSTNAME=your.host.name
@@ -23,7 +23,7 @@ services:
       - CONTROL_PANEL_ENABLED=true
       # Whether or not to enable email notifications via
       # SMTP for XSS payload fires.
-      - SMTP_EMAIL_NOTIFICATIONS_ENABLED=true
+      - SMTP_EMAIL_NOTIFICATIONS_ENABLED=false
       - SMTP_HOST=smtp.gmail.com
       - SMTP_PORT=465
       - SMTP_USE_TLS=true
