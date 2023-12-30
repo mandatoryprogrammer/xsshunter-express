@@ -50,7 +50,7 @@ async function send_rocket_notification(xss_payload_fire_data) {
 		body: JSON.stringify(slack_message)
 	}
 
-	fetch(process.env.ROCKET_WEBHOOK, options)
+	fetch(process.env.ROCKETCHAT_WEBHOOK, options)
 		.then(response => response.json())
 		.then(data => {
 			console.log("Message sent to slack. Response data:", data); // Handle the response data here

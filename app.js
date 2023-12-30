@@ -238,7 +238,8 @@ async function get_app_server() {
 			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
 			await notification.send_email_notification(payload_fire_data);
 		}
-		if (process.env.ROCKET_NOTIFICATIONS_ENABLED === "true") {
+		if (process.env.ROCKETCHAT_NOTIFICATIONS_ENABLED === "true") {
+			console.log(`--- Sending Rocket notification for payload fire ID: ${payload_fire_id} ---`);
 			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
 			try {
 				await notification.send_rocket_notification(payload_fire_data);

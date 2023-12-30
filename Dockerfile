@@ -7,7 +7,7 @@ WORKDIR /app/
 # Copy front end pacakge.json and install
 RUN mkdir front-end
 WORKDIR /app/front-end/
-COPY package*.json /app/front-end/
+COPY front-end/package*.json /app/front-end/
 RUN npm install
 
 # Copy server pacakge.json and install
