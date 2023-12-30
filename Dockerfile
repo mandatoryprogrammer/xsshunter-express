@@ -4,17 +4,24 @@ FROM node:12
 RUN mkdir /app/
 WORKDIR /app/
 
-# Copy front-end over
-COPY front-end/ /app/front-end/
+# Copy front end pacakge.json and install
+RUN mkdir front-end
 WORKDIR /app/front-end/
+COPY front-end/package*.json /app/front-end/
 RUN npm install
-RUN npm run-script build
 
+# Copy server pacakge.json and install
 WORKDIR /app/
 COPY package.json /app/
 COPY package-lock.json /app/
 RUN npm install
 
+# Build front end
+COPY front-end/ /app/front-end/
+WORKDIR /app/front-end/
+RUN npm run-script build
+
+WORKDIR /app/
 COPY server.js /app/
 COPY probe.js /app/
 COPY constants.js /app/

@@ -4,8 +4,8 @@ services:
   xsshunterexpress:
     build: .
     environment:
-      # [REQUIRED] The hostname/domain pointed to 
-      # the IP of the server running this service. 
+      # [REQUIRED] The hostname/domain pointed to
+      # the IP of the server running this service.
       # SSL will automatically be set up and
       #  renewed with LetsEncrypt.
       - HOSTNAME=your.host.name
@@ -23,7 +23,7 @@ services:
       - CONTROL_PANEL_ENABLED=true
       # Whether or not to enable email notifications via
       # SMTP for XSS payload fires.
-      - SMTP_EMAIL_NOTIFICATIONS_ENABLED=true
+      - SMTP_EMAIL_NOTIFICATIONS_ENABLED=false
       - SMTP_HOST=smtp.gmail.com
       - SMTP_PORT=465
       - SMTP_USE_TLS=true
@@ -31,6 +31,10 @@ services:
       - SMTP_PASSWORD=YourEmailPassword
       - SMTP_FROM_EMAIL=YourEmail@gmail.com
       - SMTP_RECEIVER_EMAIL=YourEmail@gmail.com
+      # Whether or not to enable Rocket.chat notifications
+      # via webhook for XSS payload fires.
+      - ROCKETCHAT_NOTIFICATIONS_ENABLED=false
+      - ROCKETCHAT_WEBHOOK=https://your.rocketchat.webhook.url
       # THERE IS NO NEED TO MODIFY BELOW THIS LINE
       # ------------------------------------------
       # FEEL FREE, BUT KNOW WHAT YOU'RE DOING.
