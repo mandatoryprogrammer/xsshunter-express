@@ -40,6 +40,8 @@ services:
       - DATABASE_USER=xsshunterexpress
       - DATABASE_PASSWORD=xsshunterexpress
       - DATABASE_HOST=postgresdb
+      - DATABASE_PORT=5432
+      - DATABASE_SSL=false
       - NODE_ENV=production
     ports:
       - "80:80"
