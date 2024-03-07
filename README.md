@@ -1,3 +1,6 @@
+<h1 style="color: red;">This is an archived project</h1>
+<p>Please refer to the new location of the project at <a href="https://github.com/adamjsturge/xsshunter-go">https://github.com/adamjsturge/xsshunter-go</a></p>
+
 # XSS Hunter Express
 ## *Sets up in 5 minutes and requires no maintenance*
 
