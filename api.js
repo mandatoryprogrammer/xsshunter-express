@@ -28,9 +28,10 @@ var sessions_settings_object = {
     cookieName: 'session',
     duration: 7 * 24 * 60 * 60 * 1000, // Default session time is a week
     activeDuration: 1000 * 60 * 5, // Extend for five minutes if actively used
+    proxy: process.env.SELF_SSL === "true",
     cookie: {
         httpOnly: true,
-        secure: true
+        secure: (process.env.GREENLOCK_SSL_ENABLED === "true" || process.env.GREENLOCK_SSL_ENABLED === "true"),
     }
 }
 function session_wrapper_function(req, res, next) {

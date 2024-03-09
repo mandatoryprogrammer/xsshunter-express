@@ -1,3 +1,6 @@
+<h1 style="color: red;">This is an archived project</h1>
+<p>Please refer to the new location of the project at <a href="https://github.com/adamjsturge/xsshunter-go">https://github.com/adamjsturge/xsshunter-go</a></p>
+
 # XSS Hunter Express
 ## *Sets up in 5 minutes and requires no maintenance*
 
@@ -17,6 +20,8 @@ To set up XSS Hunter Express, modify the [`docker-compose.yaml`](https://github.
 The following are some YAML fields (in [`docker-compose.yaml`](https://github.com/mandatoryprogrammer/xsshunter-express/blob/main/docker-compose.yml)) you'll need to modify before starting the service:
 
 * `HOSTNAME`: Set this field to your hostname you want to use for your payloads and to access the web admin panel. Often this is as short as possible (e.g. `xss.ht`) so the payload can be fit into various fields for testing. This hostname should be mapped to the IP address of your instance (via a DNS `A` record).
+* `GREENLOCK_SSL_ENABLED`: Set this field to true for default SSL setup threw greenlock. Set false if you know what don't want it
+* `SELF_SSL`: You should know what you're doing with this if you set it for true. Sets the cookie to proxy mode making them secure but it needs to be behind a SSL Cert
 * `SSL_CONTACT_EMAIL`: In order to automatically set up and renew TLS/SSL certificates via [Let's Encrypt](https://letsencrypt.org/) you'll need to provide an email address.
 
 The following are needed if you want email notifications:
@@ -29,6 +34,19 @@ The following are needed if you want email notifications:
 * `SMTP_PASSWORD`: The password of the email account on your SMTP server (e.g. `Password1!`).
 * `SMTP_FROM_EMAIL`: The email address of your email account on the SMTP server (e.g. `exampleuser@gmail.com`).
 * `SMTP_RECEIVER_EMAIL`: What email the notifications will be sent to. This may be the same as the above but could be different.
+
+The following are needed if you want slack notifications:
+
+* `SLACK_NOTIFICATIONS_ENABLED`: Leave enabled to receive slack notifications (you must set this up via the below configurations as well).
+* `SLACK_WEBHOOK`: The slack webhook that you get once you setup integration.
+* `SLACK_CHANNEL`: The slack channel that the webhook will post to.
+* `SLACK_USERNAME`: The username given to the slack message (e.g. `XSS Hunter Alerts`).
+* `SLACK_EMOJI`: The Emoji used as the porfile picture on slack (e.g. `warning`).
+
+The following are needed if you want discord notifications:
+
+* `DISCORD_NOTIFICATIONS_ENABLED`: Leave enabled to receive discord notifications (you must set this up via the below configurations as well).
+* `DISCORD_WEBHOOK`: The discord webhook that you get once you setup integration.
 
 Finally, the following is worth considering for the security conscious:
 

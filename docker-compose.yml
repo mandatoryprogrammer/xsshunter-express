@@ -11,6 +11,8 @@ services:
       - HOSTNAME=your.host.name
       # [REQUIRED] Email for SSL
       - SSL_CONTACT_EMAIL=YourEmail@gmail.com
+      - GREENLOCK_SSL_ENABLED=true
+      - SELF_SSL=false
       # Maximum XSS callback payload size
       # This includes the webpage screenshot, DOM HTML,
       # page text, and other metadata. Note that if the
@@ -31,6 +33,17 @@ services:
       - SMTP_PASSWORD=YourEmailPassword
       - SMTP_FROM_EMAIL=YourEmail@gmail.com
       - SMTP_RECEIVER_EMAIL=YourEmail@gmail.com
+      # Whether or not to enable slack notifications via
+      # Webhook for XSS payload fires.
+      - SLACK_NOTIFICATIONS_ENABLED=true
+      - SLACK_WEBHOOK=https://hooks.slack.com/services/
+      - SLACK_CHANNEL=xssalerting
+      - SLACK_USERNAME=XSS-Hunter
+      - SLACK_EMOJI=hackerman
+      # Whether or not to enable Discord notifications via
+      # Webhook for XSS payload fires.
+      - DISCORD_NOTIFICATIONS_ENABLED=true
+      - DISCORD_WEBHOOK=discord.com/api/webhooks/
       # THERE IS NO NEED TO MODIFY BELOW THIS LINE
       # ------------------------------------------
       # FEEL FREE, BUT KNOW WHAT YOU'RE DOING.

@@ -234,9 +234,29 @@ async function get_app_server() {
 		const new_payload_fire_result = await PayloadFireResults.create(payload_fire_data);
 
 		// Send out notification via configured notification channel
+		if (process.env.SLACK_NOTIFICATIONS_ENABLED === "true") {
+			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
+			try {
+				await notification.send_slack_notification(payload_fire_data);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+		if (process.env.DISCORD_NOTIFICATIONS_ENABLED === "true") {
+			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
+			try {
+				await notification.send_discord_notification(payload_fire_data);
+			} catch (error) {
+				console.error(error);
+			}
+		}
 		if(process.env.SMTP_EMAIL_NOTIFICATIONS_ENABLED === "true") {
 			payload_fire_data.screenshot_url = `https://${process.env.HOSTNAME}/screenshots/${payload_fire_data.screenshot_id}.png`;
-			await notification.send_email_notification(payload_fire_data);
+			try {
+				await notification.send_email_notification(payload_fire_data);
+			} catch (error) {
+				console.error(error);
+			}
 		}
 	});
 
